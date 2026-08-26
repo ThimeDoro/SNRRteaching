@@ -10,10 +10,10 @@
 <style>
   :root {
     /* ==== ธีมสี 4 สีตามที่กำหนด ==== */
-    --pink: #F075AE;      /* หลัก - ใช้เยอะสุด */
+    --pink: #F075AE;      /* หลัก */
     --tan: #F7DB91;       /* รอง */
-    --cream: #FFFDCE;     /* พื้นการ์ด/ตัวอักษรบนพื้นชมพู */
-    --green: #9BC264;     /* เน้น/ปุ่มแอ็กชัน */
+    --cream: #FFFDCE;     /* พื้นการ์ด */
+    --green: #9BC264;     /* เน้น */
     --ink: #7a2a52;       /* ตัวอักษรเข้มบนพื้นครีม */
     --shadow: 0 10px 24px rgba(122,42,82,0.25);
   }
@@ -24,7 +24,7 @@
     margin: 0;
     min-height: 100vh;
     font-family: "Kanit", -apple-system, "Segoe UI", sans-serif;
-    background: linear-gradient(180deg, var(--pink) 0%, #e9599a 100%);
+    background: linear-gradient(160deg, var(--pink) 0%, var(--tan) 45%, var(--cream) 65%, var(--green) 100%);
     color: var(--cream);
   }
 
@@ -60,7 +60,7 @@
   }
   .brand-tag {
     text-align: center;
-    color: var(--tan);
+    color: var(--green);
     font-size: 0.95rem;
     font-weight: 500;
     margin: 0 0 36px;
@@ -93,6 +93,7 @@
     background: var(--tan); display: flex; align-items: center; justify-content: center;
     font-size: 1.4rem; flex: none;
   }
+  .nav-card .emoji.green { background: var(--green); }
 
   /* ---------- หน้าหมวดหมู่ ---------- */
   .view { display: none; }
@@ -110,11 +111,15 @@
     color: var(--cream);
   }
   .cat-sub {
-    color: var(--tan);
+    display: inline-block;
+    color: var(--cream);
+    background: rgba(0,0,0,0.28);
     text-transform: uppercase;
-    font-size: 0.78rem;
+    font-size: 0.95rem;
     letter-spacing: 0.12em;
-    font-weight: 600;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 999px;
     margin: 0 0 22px;
   }
 
@@ -168,7 +173,7 @@
         <span>GRADING</span>
       </button>
       <button class="nav-card" onclick="showView('consignment')">
-        <span class="emoji">🤝</span>
+        <span class="emoji green">🤝</span>
         <span>CONSIGNMENT</span>
       </button>
       <button class="nav-card" onclick="showView('cs')">
