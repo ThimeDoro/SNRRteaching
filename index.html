@@ -721,6 +721,9 @@
       .then(res => {
         if (res.ok && res.token) {
           sessionStorage.setItem('senior_personal_token', res.token);
+          // เก็บ "person slug" ไว้ด้วย เพื่อส่งต่อให้ Planner เลือกพาเลตประจำตัวถูกคน
+          // (ตัดอักขระพิเศษออก เช่น "P'MINT" -> "pmint", "K.ROM" -> "krom")
+          sessionStorage.setItem('senior_personal_person', (res.username || u).toLowerCase().replace(/[^a-z0-9]/g, ''));
           document.getElementById('senior-personal-password').value = '';
           errEl.textContent = '';
           const action = pendingPersonalAction; pendingPersonalAction = null;
@@ -733,9 +736,12 @@
       .catch(() => { errEl.textContent = 'เชื่อมต่อระบบล็อกอินไม่ได้ ลองใหม่อีกครั้ง'; });
   }
 
+  function personalPerson() { return sessionStorage.getItem('senior_personal_person') || ''; }
+
   function seniorLogout() {
     sessionStorage.removeItem('senior_group_token');
     sessionStorage.removeItem('senior_personal_token');
+    sessionStorage.removeItem('senior_personal_person');
     showView('home');
   }
 
@@ -847,7 +853,7 @@
   function openPlanner() { requirePersonalLogin('planner'); }
 
   function proceedOpenPlanner() {
-    const url = 'https://thimedoro.github.io/planner/?token=' + encodeURIComponent(personalToken()) + '&api=' + encodeURIComponent(APPS_SCRIPT_URL);
+    const url = 'https://thimedoro.github.io/planner/?token=' + encodeURIComponent(personalToken()) + '&api=' + encodeURIComponent(APPS_SCRIPT_URL) + '&person=' + encodeURIComponent(personalPerson());
     window.open(url, '_blank', 'noopener');
   }
 
