@@ -853,7 +853,7 @@
   function openPlanner() { requirePersonalLogin('planner'); }
 
   function proceedOpenPlanner() {
-    const url = 'https://thimedoro.github.io/planner/?token=' + encodeURIComponent(personalToken()) + '&api=' + encodeURIComponent(APPS_SCRIPT_URL) + '&person=' + encodeURIComponent(personalPerson());
+    const url = 'https://thimedoro.github.io/SNRRPLANNER/?token=' + encodeURIComponent(personalToken()) + '&api=' + encodeURIComponent(APPS_SCRIPT_URL) + '&person=' + encodeURIComponent(personalPerson());
     window.open(url, '_blank', 'noopener');
   }
 
