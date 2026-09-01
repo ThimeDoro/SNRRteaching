@@ -143,6 +143,142 @@
   .empty-note {
     color: var(--tan); font-size: 0.9rem;
   }
+  /* ---------- SENIOR login ---------- */
+  .login-box {
+    background: var(--cream);
+    border-radius: 20px;
+    padding: 26px 22px;
+    box-shadow: var(--shadow);
+  }
+  .login-box label {
+    display: block;
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin: 0 0 6px;
+  }
+  .login-box input {
+    width: 100%;
+    padding: 12px 14px;
+    margin-bottom: 16px;
+    border-radius: 12px;
+    border: 2px solid var(--tan);
+    font-family: inherit;
+    font-size: 1rem;
+    background: #fff;
+    color: var(--ink);
+  }
+  .login-box input:focus { outline: none; border-color: var(--pink); }
+  .submit-btn {
+    width: 100%;
+    padding: 13px;
+    border-radius: 12px;
+    border: none;
+    background: var(--pink);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .submit-btn:hover { opacity: 0.92; }
+  .login-error {
+    color: #c0392b;
+    background: rgba(255,255,255,0.6);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    margin-top: 10px;
+    min-height: 1.2em;
+    text-align: center;
+  }
+  .logout-link {
+    display: inline-block;
+    background: none;
+    border: none;
+    color: var(--cream);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 12px;
+  }
+  /* ---------- Learning Resources: tabs + search ---------- */
+  .lr-tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+  .lr-tab {
+    background: rgba(255,255,255,0.35);
+    color: var(--cream);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .lr-tab.active { background: var(--cream); color: var(--ink); }
+  .lr-search {
+    display: block;
+    width: 100%;
+    padding: 11px 14px;
+    margin-bottom: 14px;
+    border-radius: 12px;
+    border: none;
+    font-family: inherit;
+    font-size: 0.9rem;
+    background: rgba(255,255,255,0.9);
+    color: var(--ink);
+  }
+  .item-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    opacity: 0.7;
+    margin-top: 2px;
+    text-transform: uppercase;
+  }
+  /* ---------- ชีทส่วนตัว (notepad) ---------- */
+  .notepad-box {
+    background: var(--cream);
+    border-radius: 20px;
+    padding: 18px;
+    box-shadow: var(--shadow);
+  }
+  .notepad-box textarea {
+    width: 100%;
+    min-height: 320px;
+    border-radius: 12px;
+    border: 2px solid var(--tan);
+    padding: 14px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--ink);
+    background: #fff;
+    resize: vertical;
+  }
+  .notepad-status {
+    font-size: 0.8rem;
+    color: var(--ink);
+    opacity: 0.7;
+    margin-top: 8px;
+    min-height: 1.2em;
+  }
+  .external-link-card {
+    display: block;
+    background: var(--cream);
+    color: var(--ink);
+    border-radius: 20px;
+    padding: 20px 22px;
+    text-decoration: none;
+    box-shadow: var(--shadow);
+    font-weight: 700;
+    font-size: 1.05rem;
+    text-align: center;
+  }
 </style>
 </head>
 <body>
@@ -153,89 +289,295 @@
     <h1 class="brand-title">THE CARDSTER</h1>
     <p class="brand-tag">Media Hub</p>
     <div class="nav-cards">
-      <button class="nav-card" onclick="showView('grading')">
-        <span class="emoji">🎖️</span>
-        <span>GRADING</span>
+      <button class="nav-card" onclick="showSeniorGate()">
+        <span class="emoji green">👑</span>
+        <span>SENIOR</span>
       </button>
-      <button class="nav-card" onclick="showView('consignment')">
-        <span class="emoji green">🤝</span>
-        <span>CONSIGNMENT</span>
+      <button class="nav-card" onclick="showView('dataentry-menu')">
+        <span class="emoji">⌨️</span>
+        <span>DATA ENTRY</span>
       </button>
-      <button class="nav-card" onclick="showView('cs')">
+      <button class="nav-card" onclick="showView('cs-menu')">
         <span class="emoji">💬</span>
         <span>CUSTOMER SERVICE</span>
       </button>
-      <button class="nav-card" onclick="showView('Shipping')">
-        <span class="emoji">🚀</span>
-        <span>Shipping</span>
+      <button class="nav-card" onclick="showView('frontend-menu')">
+        <span class="emoji">🖥️</span>
+        <span>FRONTEND</span>
       </button>
     </div>
   </div>
-  <!-- ================= หน้าหมวดหมู่ (render จาก DATA ด้านล่างทั้งหมด) ================= -->
-  <div id="view-grading" class="view">
+
+  <!-- ================= DATA ENTRY (สาธารณะ) ================= -->
+  <div id="view-dataentry-menu" class="view">
     <button class="back-btn" onclick="showView('home')">← กลับหน้าแรก</button>
-    <h2 class="cat-title">GRADING</h2>
-    <p class="cat-sub">สื่อการสอน</p>
-    <div class="item-grid" id="grid-grading"></div>
-    <div class="empty-note" id="empty-grading">ยังไม่มีรายการ</div>
+    <h2 class="cat-title">DATA ENTRY</h2>
+    <p class="cat-sub">เลือกเมนู</p>
+    <div class="nav-cards">
+      <button class="nav-card" onclick="showView('dataentry-lr')">
+        <span class="emoji green">📚</span>
+        <span>LEARNING RESOURCE</span>
+      </button>
+      <button class="nav-card" onclick="showView('dataentry-eval')">
+        <span class="emoji">📝</span>
+        <span>EVALUATION</span>
+      </button>
+    </div>
   </div>
-  <div id="view-consignment" class="view">
-    <button class="back-btn" onclick="showView('home')">← กลับหน้าแรก</button>
-    <h2 class="cat-title">CONSIGNMENT</h2>
-    <p class="cat-sub">สื่อการสอน</p>
-    <div class="item-grid" id="grid-consignment"></div>
-    <div class="empty-note" id="empty-consignment">ยังไม่มีรายการ</div>
+  <div id="view-dataentry-lr" class="view">
+    <button class="back-btn" onclick="showView('dataentry-menu')">← กลับ DATA ENTRY</button>
+    <h2 class="cat-title">DATA ENTRY</h2>
+    <p class="cat-sub">Learning Resource</p>
+    <div class="lr-tabs" id="tabs-dataentry-lr">
+      <button class="lr-tab active" data-section="files">ไฟล์ที่ใช้</button>
+      <button class="lr-tab" data-section="media">สื่อการสอน</button>
+    </div>
+    <input class="lr-search" id="search-dataentry-lr" type="text" placeholder="ค้นหา...">
+    <div class="item-grid" id="grid-dataentry-lr"></div>
+    <div class="empty-note" id="empty-dataentry-lr">ยังไม่มีรายการ</div>
   </div>
-  <div id="view-cs" class="view">
+  <div id="view-dataentry-eval" class="view">
+    <button class="back-btn" onclick="showView('dataentry-menu')">← กลับ DATA ENTRY</button>
+    <h2 class="cat-title">DATA ENTRY</h2>
+    <p class="cat-sub">Evaluation</p>
+    <input class="lr-search" id="search-dataentry-eval" type="text" placeholder="ค้นหา...">
+    <div class="item-grid" id="grid-dataentry-eval"></div>
+    <div class="empty-note" id="empty-dataentry-eval">ยังไม่มีรายการ</div>
+  </div>
+
+  <!-- ================= CUSTOMER SERVICE (สาธารณะ) ================= -->
+  <div id="view-cs-menu" class="view">
     <button class="back-btn" onclick="showView('home')">← กลับหน้าแรก</button>
     <h2 class="cat-title">CUSTOMER SERVICE</h2>
-    <p class="cat-sub">สื่อการสอน</p>
-    <div class="item-grid" id="grid-cs"></div>
-    <div class="empty-note" id="empty-cs">ยังไม่มีรายการ</div>
+    <p class="cat-sub">เลือกเมนู</p>
+    <div class="nav-cards">
+      <button class="nav-card" onclick="showView('cs-lr')">
+        <span class="emoji green">📚</span>
+        <span>LEARNING RESOURCE</span>
+      </button>
+      <button class="nav-card" onclick="showView('cs-eval')">
+        <span class="emoji">📝</span>
+        <span>EVALUATION</span>
+      </button>
+    </div>
   </div>
-  <div id="view-Shipping" class="view">
+  <div id="view-cs-lr" class="view">
+    <button class="back-btn" onclick="showView('cs-menu')">← กลับ CUSTOMER SERVICE</button>
+    <h2 class="cat-title">CUSTOMER SERVICE</h2>
+    <p class="cat-sub">Learning Resource</p>
+    <div class="lr-tabs" id="tabs-cs-lr">
+      <button class="lr-tab active" data-section="files">ไฟล์ที่ใช้</button>
+      <button class="lr-tab" data-section="media">สื่อการสอน</button>
+    </div>
+    <input class="lr-search" id="search-cs-lr" type="text" placeholder="ค้นหา...">
+    <div class="item-grid" id="grid-cs-lr"></div>
+    <div class="empty-note" id="empty-cs-lr">ยังไม่มีรายการ</div>
+  </div>
+  <div id="view-cs-eval" class="view">
+    <button class="back-btn" onclick="showView('cs-menu')">← กลับ CUSTOMER SERVICE</button>
+    <h2 class="cat-title">CUSTOMER SERVICE</h2>
+    <p class="cat-sub">Evaluation</p>
+    <input class="lr-search" id="search-cs-eval" type="text" placeholder="ค้นหา...">
+    <div class="item-grid" id="grid-cs-eval"></div>
+    <div class="empty-note" id="empty-cs-eval">ยังไม่มีรายการ</div>
+  </div>
+
+  <!-- ================= FRONTEND (สาธารณะ) ================= -->
+  <div id="view-frontend-menu" class="view">
     <button class="back-btn" onclick="showView('home')">← กลับหน้าแรก</button>
-    <h2 class="cat-title">Shipping</h2>
+    <h2 class="cat-title">FRONTEND</h2>
+    <p class="cat-sub">เลือกเมนู</p>
+    <div class="nav-cards">
+      <button class="nav-card" onclick="showView('frontend-lr')">
+        <span class="emoji green">📚</span>
+        <span>LEARNING RESOURCE</span>
+      </button>
+      <button class="nav-card" onclick="showView('frontend-eval')">
+        <span class="emoji">📝</span>
+        <span>EVALUATION</span>
+      </button>
+    </div>
+  </div>
+  <div id="view-frontend-lr" class="view">
+    <button class="back-btn" onclick="showView('frontend-menu')">← กลับ FRONTEND</button>
+    <h2 class="cat-title">FRONTEND</h2>
+    <p class="cat-sub">Learning Resource</p>
+    <div class="lr-tabs" id="tabs-frontend-lr">
+      <button class="lr-tab active" data-section="files">ไฟล์ที่ใช้</button>
+      <button class="lr-tab" data-section="media">สื่อการสอน</button>
+    </div>
+    <input class="lr-search" id="search-frontend-lr" type="text" placeholder="ค้นหา...">
+    <div class="item-grid" id="grid-frontend-lr"></div>
+    <div class="empty-note" id="empty-frontend-lr">ยังไม่มีรายการ</div>
+  </div>
+  <div id="view-frontend-eval" class="view">
+    <button class="back-btn" onclick="showView('frontend-menu')">← กลับ FRONTEND</button>
+    <h2 class="cat-title">FRONTEND</h2>
+    <p class="cat-sub">Evaluation</p>
+    <input class="lr-search" id="search-frontend-eval" type="text" placeholder="ค้นหา...">
+    <div class="item-grid" id="grid-frontend-eval"></div>
+    <div class="empty-note" id="empty-frontend-eval">ยังไม่มีรายการ</div>
+  </div>
+
+  <!-- ================= SENIOR (ต้องล็อกอิน) ================= -->
+  <div id="view-senior-login" class="view">
+    <button class="back-btn" onclick="showView('home')">← กลับหน้าแรก</button>
+    <h2 class="cat-title">SENIOR</h2>
+    <p class="cat-sub">กรอกรหัสผ่านทีม SENIOR เพื่อเข้าใช้งานส่วนกลาง</p>
+    <div class="login-box">
+      <label for="senior-group-password">รหัสผ่านทีม</label>
+      <input type="password" id="senior-group-password" autocomplete="off">
+      <button class="submit-btn" onclick="doSeniorGroupLogin()">เข้าสู่ระบบ</button>
+      <div class="login-error" id="senior-login-error"></div>
+    </div>
+  </div>
+  <div id="view-senior-personal-login" class="view">
+    <button class="back-btn" onclick="showView('senior-menu')">← กลับ SENIOR</button>
+    <h2 class="cat-title">เข้าสู่ระบบรายคน</h2>
+    <p class="cat-sub">ใช้เฉพาะเข้าดูข้อมูลส่วนตัวของแต่ละคน</p>
+    <div class="login-box">
+      <label for="senior-personal-username">ชื่อผู้ใช้</label>
+      <input type="text" id="senior-personal-username" autocomplete="username">
+      <label for="senior-personal-password">รหัสผ่าน</label>
+      <input type="password" id="senior-personal-password" autocomplete="current-password">
+      <button class="submit-btn" onclick="doSeniorPersonalLogin()">เข้าสู่ระบบ</button>
+      <div class="login-error" id="senior-personal-login-error"></div>
+    </div>
+  </div>
+  <div id="view-senior-menu" class="view">
+    <button class="back-btn" onclick="showView('home')">← กลับหน้าแรก</button>
+    <button class="logout-link" onclick="seniorLogout()">ออกจากระบบ</button>
+    <h2 class="cat-title" style="margin-top:14px;">SENIOR</h2>
+    <p class="cat-sub">เลือกเมนู</p>
+    <div class="nav-cards">
+      <button class="nav-card" onclick="showView('senior-pmint')">
+        <span class="emoji green">⭐</span>
+        <span>P'MINT</span>
+      </button>
+      <button class="nav-card" onclick="showView('senior-dorryy')">
+        <span class="emoji green">🌟</span>
+        <span>DORRYY</span>
+      </button>
+      <button class="nav-card" onclick="showView('senior-krom')">
+        <span class="emoji green">👑</span>
+        <span>K.ROM</span>
+      </button>
+      <button class="nav-card" onclick="showView('senior-files-all')">
+        <span class="emoji">🗂️</span>
+        <span>ไฟล์ที่ใช้งานทั้งหมด</span>
+      </button>
+      <button class="nav-card" onclick="showView('senior-media-all')">
+        <span class="emoji">📚</span>
+        <span>สื่อการสอนทั้งหมด</span>
+      </button>
+      <button class="nav-card" onclick="showView('senior-tests-all')">
+        <span class="emoji">📝</span>
+        <span>บททดสอบ</span>
+      </button>
+      <button class="nav-card" onclick="openNotepad()">
+        <span class="emoji green">🗒️</span>
+        <span>ชีทส่วนตัวของฉัน</span>
+      </button>
+      <button class="nav-card" onclick="openPlanner()">
+        <span class="emoji">📅</span>
+        <span>Planner ของฉัน</span>
+      </button>
+    </div>
+  </div>
+  <div id="view-senior-pmint" class="view">
+    <button class="back-btn" onclick="showView('senior-menu')">← กลับ SENIOR</button>
+    <h2 class="cat-title">P'MINT</h2>
     <p class="cat-sub">สื่อการสอน</p>
-    <div class="item-grid" id="grid-Shipping"></div>
-    <div class="empty-note" id="empty-Shipping">ยังไม่มีรายการ</div>
+    <div class="item-grid" id="grid-senior-pmint"></div>
+    <div class="empty-note" id="empty-senior-pmint">ยังไม่มีรายการ</div>
+  </div>
+  <div id="view-senior-dorryy" class="view">
+    <button class="back-btn" onclick="showView('senior-menu')">← กลับ SENIOR</button>
+    <h2 class="cat-title">DORRYY</h2>
+    <p class="cat-sub">สื่อการสอน</p>
+    <div class="item-grid" id="grid-senior-dorryy"></div>
+    <div class="empty-note" id="empty-senior-dorryy">ยังไม่มีรายการ</div>
+  </div>
+  <div id="view-senior-krom" class="view">
+    <button class="back-btn" onclick="showView('senior-menu')">← กลับ SENIOR</button>
+    <h2 class="cat-title">K.ROM</h2>
+    <p class="cat-sub">สื่อการสอน</p>
+    <div class="item-grid" id="grid-senior-krom"></div>
+    <div class="empty-note" id="empty-senior-krom">ยังไม่มีรายการ</div>
+  </div>
+  <div id="view-senior-files-all" class="view">
+    <button class="back-btn" onclick="showView('senior-menu')">← กลับ SENIOR</button>
+    <h2 class="cat-title">ไฟล์ที่ใช้งานทั้งหมด</h2>
+    <p class="cat-sub">ทุกทีม</p>
+    <input class="lr-search" id="search-senior-files-all" type="text" placeholder="ค้นหา (ชื่อไฟล์ หรือ ทีม)...">
+    <div class="item-grid" id="grid-senior-files-all"></div>
+    <div class="empty-note" id="empty-senior-files-all">ยังไม่มีรายการ</div>
+  </div>
+  <div id="view-senior-media-all" class="view">
+    <button class="back-btn" onclick="showView('senior-menu')">← กลับ SENIOR</button>
+    <h2 class="cat-title">สื่อการสอนทั้งหมด</h2>
+    <p class="cat-sub">ทุกทีม</p>
+    <input class="lr-search" id="search-senior-media-all" type="text" placeholder="ค้นหา (ชื่อสื่อ หรือ ทีม)...">
+    <div class="item-grid" id="grid-senior-media-all"></div>
+    <div class="empty-note" id="empty-senior-media-all">ยังไม่มีรายการ</div>
+  </div>
+  <div id="view-senior-tests-all" class="view">
+    <button class="back-btn" onclick="showView('senior-menu')">← กลับ SENIOR</button>
+    <h2 class="cat-title">บททดสอบ</h2>
+    <p class="cat-sub">ทุกทีม</p>
+    <input class="lr-search" id="search-senior-tests-all" type="text" placeholder="ค้นหา (ชื่อบททดสอบ หรือ ทีม)...">
+    <div class="item-grid" id="grid-senior-tests-all"></div>
+    <div class="empty-note" id="empty-senior-tests-all">ยังไม่มีรายการ</div>
+  </div>
+  <div id="view-senior-notepad" class="view">
+    <button class="back-btn" onclick="showView('senior-menu')">← กลับ SENIOR</button>
+    <h2 class="cat-title">ชีทส่วนตัวของฉัน</h2>
+    <p class="cat-sub">เห็นเฉพาะฉันคนเดียว</p>
+    <div class="notepad-box">
+      <textarea id="notepad-text" placeholder="จดข้อมูลส่วนตัวของฉันที่นี่... บันทึกอัตโนมัติ"></textarea>
+      <div class="notepad-status" id="notepad-status"></div>
+    </div>
   </div>
 </div>
 <script>
   /* ===========================================================
-     รายการสื่อของแต่ละหมวด — แก้ตรงนี้ที่เดียวพอ
-     วิธีเพิ่ม: คัดลอกทั้งบรรทัด { name: ..., image: ..., link: ... }
-                แล้ววางต่อในหมวดที่ต้องการ (คั่นด้วย , )
-     วิธีลบ:   ลบทั้งบรรทัดของรายการนั้นทิ้ง
-     image:    ใส่ลิงก์รูปภาพ (ขึ้นต้นด้วย http... หรือ data:) หรือใส่ emoji เดียว
-                หรือเว้นว่าง "" ก็ได้ (ถ้าเว้นว่างจะโชว์ไอคอน 🔗 แทน)
-     แก้เสร็จแล้วอัปโหลดไฟล์ index.html นี้ทับของเดิมบน GitHub
+     โครงสร้าง: SENIOR / DATA ENTRY / CUSTOMER SERVICE / FRONTEND
+
+     - DATA ENTRY, CUSTOMER SERVICE, FRONTEND: แต่ละทีมมี 2 หน้า
+       LEARNING RESOURCE (files, media) และ EVALUATION (tests)
+       ดึงข้อมูลทั้งหมดจากชีตสาธารณะชีทเดียว (LR_SHEET_URL ด้านล่าง):
+       https://docs.google.com/spreadsheets/d/1-OJVq-Z7OjreDL6KROZQqkXU6178GRFdN7SB9hVVOR8/edit
+       คอลัมน์: team, section, name, image, link
+       - team: dataentry / csbackend (= CUSTOMER SERVICE) / csfrontend (= FRONTEND)
+         (ใส่ได้มากกว่า 1 ค่าในช่องเดียวแบบ "csbackend,csfrontend")
+       - section: files (ไฟล์ที่ใช้) / media (สื่อการสอน) / tests (บททดสอบ — ไปโผล่หน้า EVALUATION)
+
+     - SENIOR หลัก/PRO เดิม เปลี่ยนเป็นแยกตามตัวบุคคลแล้ว: P'MINT / DORRYY / K.ROM
+       ข้อมูลมาจากชีทส่วนตัว DATA_SHEET_ID (Apps Script) คอลัมน์ person: pmint / dorryy / krom
+
+     - SENIOR: ต้องผ่าน 2 ด่าน — รหัสผ่านทีม (ดูข้อมูลส่วนกลาง) แล้วค่อย username/password
+       รายคน (เฉพาะตอนเข้าชีทส่วนตัว/Planner) ตรวจสอบผ่าน Google Apps Script (backend เล็กๆ)
+       เพื่อไม่ให้ข้อมูลหลุดออกมาก่อนล็อกอินสำเร็จ
+
+     APPS_SCRIPT_URL ด้านล่างต้องใส่ URL ของ Apps Script Web App ที่ deploy แล้ว
+     (ตอนนี้ยังเป็นค่าว่างชั่วคราว รอ deploy เสร็จแล้วจะใส่ให้)
      =========================================================== */
-  const DATA = {
-    grading: [
-      { name: "PSA Guide",  image: "", link: "https://thimedoro.github.io/PSAGUIDE/" },
-      { name: "Card Cycle", image: "", link: "https://thimedoro.github.io/CARDCYCLE/" }
-    ],
-    consignment: [
-      { name: "Guideline for Consignment", image: "", link: "https://thimedoro.github.io/Guideline-for-Consignment/" }
-    ],
-    Shipping: [
-      { name: "FED EX WORKFLOW", image: "💙", link: "https://thimedoro.github.io/FEDEX-Workflow/" },
-      { name: "SEND2THAI WORKFLOW", image: "🧡", link: "https://thimedoro.github.io/INBOUNDWORKFLOW/" }
-    ],
-    cs: [
-      // ยังไม่มีรายการ — เพิ่มแบบ { name: "ชื่อ", image: "", link: "https://..." } ได้เลย
-    ]
-  };
+  const LR_SHEET_URL = "https://docs.google.com/spreadsheets/d/1-OJVq-Z7OjreDL6KROZQqkXU6178GRFdN7SB9hVVOR8/export?format=csv&gid=0";
+  const TEAM_DISPLAY = { dataentry: "DATA ENTRY", csbackend: "CUSTOMER SERVICE", csfrontend: "FRONTEND" };
+  const APPS_SCRIPT_URL = "PASTE_APPS_SCRIPT_WEB_APP_URL_HERE";
+
   function showView(name) {
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     document.getElementById('view-' + name).classList.add('active');
     window.scrollTo(0, 0);
   }
-  function render(cat) {
-    const grid = document.getElementById('grid-' + cat);
-    const empty = document.getElementById('empty-' + cat);
-    const items = DATA[cat];
+
+  function renderCategory(key, items, showLabel) {
+    const grid = document.getElementById('grid-' + key);
+    const empty = document.getElementById('empty-' + key);
+    if (!grid || !empty) return;
+    grid.innerHTML = '';
+    items = items || [];
     empty.style.display = items.length ? 'none' : 'block';
     items.forEach(item => {
       const a = document.createElement('a');
@@ -262,10 +604,297 @@
       nameDiv.textContent = item.name;
       a.appendChild(thumb);
       a.appendChild(nameDiv);
+      if (showLabel && item.team && item.team.length) {
+        const labelDiv = document.createElement('div');
+        labelDiv.className = 'item-label';
+        labelDiv.textContent = item.team.map(t => TEAM_DISPLAY[t] || t).join(', ');
+        a.appendChild(labelDiv);
+      }
       grid.appendChild(a);
     });
   }
-  Object.keys(DATA).forEach(render);
+
+  // ---- ตัวแปลง CSV เป็นรายการ (รองรับข้อความที่มีจุลภาค/เครื่องหมายคำพูด) ----
+  function parseCSV(text) {
+    const rows = [];
+    let row = [], field = '', inQuotes = false;
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i], next = text[i + 1];
+      if (inQuotes) {
+        if (c === '"' && next === '"') { field += '"'; i++; }
+        else if (c === '"') { inQuotes = false; }
+        else { field += c; }
+      } else {
+        if (c === '"') inQuotes = true;
+        else if (c === ',') { row.push(field); field = ''; }
+        else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
+        else if (c === '\r') { /* ข้าม */ }
+        else { field += c; }
+      }
+    }
+    if (field.length || row.length) { row.push(field); rows.push(row); }
+    return rows.filter(r => r.some(c => c.trim() !== ''));
+  }
+
+  /* ---------------- SENIOR: รหัสผ่านทีม (ส่วนกลาง) + ล็อกอินรายคน (ส่วนตัว) ---------------- */
+  // ด่านที่ 1: รหัสผ่านทีม SENIOR ตัวเดียวใช้ร่วมกัน — ปลดล็อกเมนูส่วนกลาง (สื่อ/ไฟล์/บททดสอบทั้งหมด)
+  function groupToken() { return sessionStorage.getItem('senior_group_token') || ''; }
+  function groupLoggedIn() { return !!groupToken(); }
+  // ด่านที่ 2: username/password รายคน — ต้องผ่านด่านนี้เฉพาะตอนจะเข้า "ชีทส่วนตัว" หรือ "Planner ส่วนตัว"
+  function personalToken() { return sessionStorage.getItem('senior_personal_token') || ''; }
+  function personalLoggedIn() { return !!personalToken(); }
+
+  function showSeniorGate() {
+    if (groupLoggedIn()) {
+      loadSeniorMenuShared();
+    } else {
+      document.getElementById('senior-login-error').textContent = '';
+      showView('senior-login');
+    }
+  }
+
+  function doSeniorGroupLogin() {
+    if (APPS_SCRIPT_URL.indexOf('PASTE_') === 0) {
+      document.getElementById('senior-login-error').textContent = 'ระบบล็อกอินยังตั้งค่าไม่เสร็จ (รอเชื่อม Apps Script)';
+      return;
+    }
+    const p = document.getElementById('senior-group-password').value;
+    const errEl = document.getElementById('senior-login-error');
+    if (!p) { errEl.textContent = 'กรอกรหัสผ่าน'; return; }
+    errEl.textContent = 'กำลังตรวจสอบ...';
+    fetch(APPS_SCRIPT_URL + '?action=group_login&password=' + encodeURIComponent(p))
+      .then(r => r.json())
+      .then(res => {
+        if (res.ok && res.token) {
+          sessionStorage.setItem('senior_group_token', res.token);
+          document.getElementById('senior-group-password').value = '';
+          errEl.textContent = '';
+          loadSeniorMenuShared();
+        } else {
+          errEl.textContent = 'รหัสผ่านไม่ถูกต้อง';
+        }
+      })
+      .catch(() => { errEl.textContent = 'เชื่อมต่อระบบล็อกอินไม่ได้ ลองใหม่อีกครั้ง'; });
+  }
+
+  function loadSeniorMenuShared() {
+    showView('senior-menu');
+    fetch(APPS_SCRIPT_URL + '?action=data&token=' + encodeURIComponent(groupToken()) + '&_=' + Date.now(), { cache: 'no-store' })
+      .then(r => r.json())
+      .then(res => {
+        if (!res.ok) { seniorLogout(); return; }
+        const items = res.items || [];
+        renderCategory('senior-pmint', items.filter(it => it.person === 'pmint'));
+        renderCategory('senior-dorryy', items.filter(it => it.person === 'dorryy'));
+        renderCategory('senior-krom', items.filter(it => it.person === 'krom'));
+      })
+      .catch(() => { /* เก็บเมนูไว้ แต่รายการอาจว่างถ้าโหลดไม่สำเร็จ */ });
+  }
+
+  let pendingPersonalAction = null; // 'notepad' หรือ 'planner' — งานที่รอทำต่อหลังล็อกอินรายคนสำเร็จ
+
+  function requirePersonalLogin(action) {
+    if (personalLoggedIn()) {
+      if (action === 'notepad') proceedOpenNotepad();
+      else if (action === 'planner') proceedOpenPlanner();
+      return;
+    }
+    pendingPersonalAction = action;
+    document.getElementById('senior-personal-login-error').textContent = '';
+    document.getElementById('senior-personal-username').value = '';
+    document.getElementById('senior-personal-password').value = '';
+    showView('senior-personal-login');
+  }
+
+  function doSeniorPersonalLogin() {
+    if (APPS_SCRIPT_URL.indexOf('PASTE_') === 0) {
+      document.getElementById('senior-personal-login-error').textContent = 'ระบบล็อกอินยังตั้งค่าไม่เสร็จ (รอเชื่อม Apps Script)';
+      return;
+    }
+    const u = document.getElementById('senior-personal-username').value.trim();
+    const p = document.getElementById('senior-personal-password').value;
+    const errEl = document.getElementById('senior-personal-login-error');
+    if (!u || !p) { errEl.textContent = 'กรอกชื่อผู้ใช้และรหัสผ่านให้ครบ'; return; }
+    errEl.textContent = 'กำลังตรวจสอบ...';
+    fetch(APPS_SCRIPT_URL + '?action=login&username=' + encodeURIComponent(u) + '&password=' + encodeURIComponent(p))
+      .then(r => r.json())
+      .then(res => {
+        if (res.ok && res.token) {
+          sessionStorage.setItem('senior_personal_token', res.token);
+          document.getElementById('senior-personal-password').value = '';
+          errEl.textContent = '';
+          const action = pendingPersonalAction; pendingPersonalAction = null;
+          if (action === 'planner') proceedOpenPlanner();
+          else proceedOpenNotepad();
+        } else {
+          errEl.textContent = 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง';
+        }
+      })
+      .catch(() => { errEl.textContent = 'เชื่อมต่อระบบล็อกอินไม่ได้ ลองใหม่อีกครั้ง'; });
+  }
+
+  function seniorLogout() {
+    sessionStorage.removeItem('senior_group_token');
+    sessionStorage.removeItem('senior_personal_token');
+    showView('home');
+  }
+
+  /* ---------------- Learning Resources: tabs + search (DATA ENTRY, CS, SENIOR ทั้งหมด) ---------------- */
+  let LR_DATA = [];
+  const lrTabState = {
+    'dataentry-lr':        { section: 'files', query: '' },
+    'dataentry-eval':      { section: 'tests', query: '' },
+    'cs-lr':               { section: 'files', query: '' },
+    'cs-eval':             { section: 'tests', query: '' },
+    'frontend-lr':         { section: 'files', query: '' },
+    'frontend-eval':       { section: 'tests', query: '' },
+    'senior-files-all':    { section: 'files', query: '' },
+    'senior-media-all':    { section: 'media', query: '' },
+    'senior-tests-all':    { section: 'tests', query: '' }
+  };
+  const lrTeamFilters = {
+    'dataentry-lr':        it => it.team.includes('dataentry'),
+    'dataentry-eval':      it => it.team.includes('dataentry'),
+    'cs-lr':               it => it.team.includes('csbackend'),
+    'cs-eval':             it => it.team.includes('csbackend'),
+    'frontend-lr':         it => it.team.includes('csfrontend'),
+    'frontend-eval':       it => it.team.includes('csfrontend'),
+    'senior-files-all':    () => true,
+    'senior-media-all':    () => true,
+    'senior-tests-all':    () => true
+  };
+  const lrShowLabel = {
+    'dataentry-lr': false,
+    'dataentry-eval': false,
+    'cs-lr': false,
+    'cs-eval': false,
+    'frontend-lr': false,
+    'frontend-eval': false,
+    'senior-files-all': true,
+    'senior-media-all': true,
+    'senior-tests-all': true
+  };
+
+  function parseLRCsv(text) {
+    const rows = parseCSV(text);
+    if (!rows.length) throw new Error('empty LR sheet');
+    const header = rows[0].map(h => h.trim().toLowerCase());
+    const idx = {
+      team: header.indexOf('team'),
+      section: header.indexOf('section'),
+      name: header.indexOf('name'),
+      image: header.indexOf('image'),
+      link: header.indexOf('link')
+    };
+    const out = [];
+    for (let i = 1; i < rows.length; i++) {
+      const r = rows[i];
+      const name = (r[idx.name] || '').trim();
+      if (!name) continue;
+      const teamRaw = idx.team > -1 ? (r[idx.team] || '') : '';
+      out.push({
+        team: teamRaw.split(',').map(t => t.trim().toLowerCase()).filter(Boolean),
+        section: idx.section > -1 ? (r[idx.section] || '').trim().toLowerCase() : 'files',
+        name,
+        image: idx.image > -1 ? (r[idx.image] || '').trim() : '',
+        link: idx.link > -1 ? (r[idx.link] || '').trim() : ''
+      });
+    }
+    return out;
+  }
+
+  function renderLR(key) {
+    const st = lrTabState[key];
+    const filterFn = lrTeamFilters[key];
+    let items = LR_DATA.filter(it => it.section === st.section && filterFn(it));
+    const q = st.query.trim().toLowerCase();
+    if (q) items = items.filter(it => it.name.toLowerCase().includes(q) || it.team.join(' ').toLowerCase().includes(q));
+    renderCategory(key, items, lrShowLabel[key]);
+  }
+
+  function renderAllLR() { Object.keys(lrTabState).forEach(renderLR); }
+
+  // แท็บสลับหมวด (มีเฉพาะหน้า Learning Resource — ไฟล์/สื่อ 2 แท็บ; หน้า Evaluation กับของ SENIOR ทั้งหมดตายตัวหมวดละหน้า ไม่มีแท็บ)
+  ['dataentry-lr', 'cs-lr', 'frontend-lr'].forEach(key => {
+    const tabsEl = document.getElementById('tabs-' + key);
+    if (!tabsEl) return;
+    tabsEl.querySelectorAll('.lr-tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabsEl.querySelectorAll('.lr-tab').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        lrTabState[key].section = btn.dataset.section;
+        renderLR(key);
+      });
+    });
+  });
+
+  // ช่องค้นหาของทุกหน้า Learning Resources
+  Object.keys(lrTabState).forEach(key => {
+    const input = document.getElementById('search-' + key);
+    if (!input) return;
+    input.addEventListener('input', () => {
+      lrTabState[key].query = input.value;
+      renderLR(key);
+    });
+  });
+
+  fetch(LR_SHEET_URL + '&_=' + Date.now(), { cache: 'no-store' })
+    .then(res => { if (!res.ok) throw new Error('fetch failed: ' + res.status); return res.text(); })
+    .then(text => { LR_DATA = parseLRCsv(text); renderAllLR(); })
+    .catch(err => console.warn('โหลด Learning Resources ไม่สำเร็จ:', err));
+
+  /* ---------------- Planner ส่วนตัว (ซิงก์ผ่าน Apps Script ตัวเดียวกัน — ต้องล็อกอินรายคนก่อน) ---------------- */
+  function openPlanner() { requirePersonalLogin('planner'); }
+
+  function proceedOpenPlanner() {
+    const url = 'https://thimedoro.github.io/planner/?token=' + encodeURIComponent(personalToken()) + '&api=' + encodeURIComponent(APPS_SCRIPT_URL);
+    window.open(url, '_blank', 'noopener');
+  }
+
+  /* ---------------- ชีทส่วนตัวของฉัน (autosave ผ่าน Apps Script — ต้องล็อกอินรายคนก่อน) ---------------- */
+  let notepadSaveTimer = null;
+
+  function openNotepad() { requirePersonalLogin('notepad'); }
+
+  function proceedOpenNotepad() {
+    showView('senior-notepad');
+    const status = document.getElementById('notepad-status');
+    if (APPS_SCRIPT_URL.indexOf('PASTE_') === 0) {
+      status.textContent = 'ระบบยังตั้งค่าไม่เสร็จ (รอเชื่อม Apps Script)';
+      return;
+    }
+    status.textContent = 'กำลังโหลด...';
+    fetch(APPS_SCRIPT_URL + '?action=pdata_get&token=' + encodeURIComponent(personalToken()) + '&slot=notepad&_=' + Date.now(), { cache: 'no-store' })
+      .then(r => r.json())
+      .then(res => {
+        document.getElementById('notepad-text').value = (res.ok && res.data) ? res.data : '';
+        status.textContent = res.ok ? '' : 'โหลดไม่สำเร็จ';
+      })
+      .catch(() => { status.textContent = 'โหลดไม่สำเร็จ'; });
+  }
+
+  function saveNotepad() {
+    const status = document.getElementById('notepad-status');
+    const text = document.getElementById('notepad-text').value;
+    status.textContent = 'กำลังบันทึก...';
+    fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ action: 'pdata_save', token: personalToken(), slot: 'notepad', data: text })
+    })
+      .then(r => r.json())
+      .then(res => { status.textContent = res.ok ? 'บันทึกแล้ว ✓' : 'บันทึกไม่สำเร็จ'; })
+      .catch(() => { status.textContent = 'บันทึกไม่สำเร็จ (ออฟไลน์?)'; });
+  }
+
+  const notepadTextEl = document.getElementById('notepad-text');
+  if (notepadTextEl) {
+    notepadTextEl.addEventListener('input', () => {
+      document.getElementById('notepad-status').textContent = 'กำลังพิมพ์...';
+      clearTimeout(notepadSaveTimer);
+      notepadSaveTimer = setTimeout(saveNotepad, 1200);
+    });
+  }
 </script>
 </body>
 </html>
