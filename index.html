@@ -254,6 +254,43 @@
     margin-top: 2px;
     text-transform: uppercase;
   }
+  /* ---------- Dashboard (สรุปงานทุกคน) ---------- */
+  .dash-week-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--cream); border-radius: 16px; padding: 10px 14px;
+    margin-bottom: 14px; box-shadow: var(--shadow);
+  }
+  .dash-nav-btn {
+    background: var(--tan); border: none; border-radius: 50%;
+    width: 34px; height: 34px; font-size: 1.1rem; font-weight: 700;
+    color: var(--ink); cursor: pointer; flex: none;
+  }
+  .dash-week-label { font-weight: 700; color: var(--ink); font-size: 0.9rem; text-align: center; flex: 1; }
+  .dash-stats {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+    margin-bottom: 20px;
+  }
+  .dash-stat {
+    background: var(--cream); border-radius: 14px; padding: 14px 10px;
+    text-align: center; box-shadow: var(--shadow);
+  }
+  .dash-stat-n { font-size: 1.6rem; font-weight: 800; color: var(--ink); }
+  .dash-stat-n.red { color: #c0392b; }
+  .dash-stat-n.green { color: #2f7a3d; }
+  .dash-stat-l { font-size: 0.72rem; color: var(--ink); opacity: 0.7; margin-top: 2px; }
+  .dash-section-title { color: var(--cream); font-size: 1rem; font-weight: 700; margin: 4px 0 8px; }
+  .dash-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 4px; }
+  .dash-item {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    background: var(--cream); border-radius: 12px; padding: 10px 14px; box-shadow: var(--shadow);
+  }
+  .dash-item.done .dash-item-title { text-decoration: line-through; opacity: 0.6; }
+  .dash-item-title { font-weight: 600; color: var(--ink); font-size: 0.88rem; }
+  .dash-item-meta { font-size: 0.72rem; color: var(--ink); opacity: 0.65; margin-top: 2px; }
+  .dash-item-owner {
+    flex: none; background: var(--tan); color: var(--ink); font-size: 0.68rem;
+    font-weight: 700; padding: 4px 10px; border-radius: 999px; white-space: nowrap;
+  }
   .external-link-card {
     display: block;
     background: var(--cream);
@@ -449,11 +486,37 @@
         <span class="emoji">📝</span>
         <span>บททดสอบ</span>
       </button>
+      <button class="nav-card" onclick="openDashboard()">
+        <span class="emoji">📊</span>
+        <span>Dashboard</span>
+      </button>
       <button class="nav-card" onclick="openPersonalArea()">
         <span class="emoji green">🗒️</span>
         <span>โน้ตส่วนตัว</span>
       </button>
     </div>
+  </div>
+  <div id="view-senior-dashboard" class="view">
+    <button class="back-btn" onclick="showView('senior-menu')">← กลับ SENIOR</button>
+    <h2 class="cat-title">Dashboard</h2>
+    <p class="cat-sub">สรุปงานทุกคน</p>
+    <div class="dash-week-nav">
+      <button class="dash-nav-btn" onclick="dashShiftWeek(-1)" aria-label="สัปดาห์ก่อนหน้า">‹</button>
+      <div class="dash-week-label" id="dash-week-label">—</div>
+      <button class="dash-nav-btn" onclick="dashShiftWeek(1)" aria-label="สัปดาห์ถัดไป">›</button>
+    </div>
+    <div class="dash-stats">
+      <div class="dash-stat"><div class="dash-stat-n" id="dash-done">0</div><div class="dash-stat-l">เสร็จแล้ว</div></div>
+      <div class="dash-stat"><div class="dash-stat-n" id="dash-pending">0</div><div class="dash-stat-l">ค้างสัปดาห์นี้</div></div>
+      <div class="dash-stat"><div class="dash-stat-n red" id="dash-overdue">0</div><div class="dash-stat-l">ค้างสะสมก่อนหน้า</div></div>
+      <div class="dash-stat"><div class="dash-stat-n green" id="dash-rate">0%</div><div class="dash-stat-l">อัตราสำเร็จ</div></div>
+    </div>
+    <h3 class="dash-section-title">เสร็จแล้วสัปดาห์นี้</h3>
+    <div class="dash-list" id="dash-list-done"></div>
+    <div class="empty-note" id="dash-empty-done">ยังไม่มีรายการ</div>
+    <h3 class="dash-section-title">ค้างสัปดาห์นี้</h3>
+    <div class="dash-list" id="dash-list-pending"></div>
+    <div class="empty-note" id="dash-empty-pending">ยังไม่มีรายการ</div>
   </div>
   <div id="view-senior-personal-menu" class="view">
     <button class="back-btn" onclick="showView('senior-menu')">← กลับ SENIOR</button>
@@ -715,7 +778,108 @@
     sessionStorage.removeItem('senior_personal_token');
     sessionStorage.removeItem('senior_personal_person');
     document.body.classList.remove('theme-pmint', 'theme-dorryy', 'theme-krom');
+    DASHBOARD_ITEMS = null;
     showView('home');
+  }
+
+  /* ---------------- Dashboard: สรุปงานทุกคน (เห็นได้ด้วยรหัสทีมอย่างเดียว ไม่ต้องล็อกอินรายคน) ----------------
+     เอามาแสดงแค่ หัวข้องาน / วันที่ / เวลา / ป้ายชื่อเจ้าของงาน เท่านั้น — รายละเอียดอื่นๆ ถูกตัดออกตั้งแต่ฝั่งเซิร์ฟเวอร์แล้ว
+     (ดู handleDashboard ใน SeniorBackend_Code.gs) ไม่ใช่แค่ซ่อนที่หน้าเว็บ */
+  let DASHBOARD_ITEMS = null; // โหลดครั้งแรกตอนเปิด แล้ว cache ไว้ใช้สลับดูสัปดาห์อื่น
+  let dashWeekOffset = 0;
+
+  function openDashboard() {
+    showView('senior-dashboard');
+    if (DASHBOARD_ITEMS !== null) { renderDashboard(); return; }
+    document.getElementById('dash-week-label').textContent = 'กำลังโหลด...';
+    fetch(APPS_SCRIPT_URL + '?action=dashboard&token=' + encodeURIComponent(groupToken()) + '&_=' + Date.now(), { cache: 'no-store' })
+      .then(r => r.json())
+      .then(res => {
+        DASHBOARD_ITEMS = (res.ok && res.items) ? res.items : [];
+        dashWeekOffset = 0;
+        renderDashboard();
+      })
+      .catch(() => { DASHBOARD_ITEMS = []; dashWeekOffset = 0; renderDashboard(); });
+  }
+
+  function dashShiftWeek(delta) {
+    dashWeekOffset += delta;
+    renderDashboard();
+  }
+
+  // สัปดาห์เริ่มวันจันทร์ — คำนวณจากวันนี้ + offset สัปดาห์
+  function dashWeekRange(offset) {
+    const now = new Date();
+    const day = now.getDay(); // 0=อาทิตย์ .. 6=เสาร์
+    const mondayDiff = (day === 0) ? -6 : 1 - day;
+    const monday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    monday.setDate(monday.getDate() + mondayDiff + offset * 7);
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+    return { start: monday, end: sunday };
+  }
+
+  const DASH_MONTHS = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+  function dashFmtDate(d) {
+    const be = d.getFullYear() + 543;
+    return d.getDate() + ' ' + DASH_MONTHS[d.getMonth()] + ' ' + String(be).slice(-2);
+  }
+  function dashParseDate(s) {
+    if (!s) return null;
+    const p = s.split('-');
+    if (p.length !== 3) return null;
+    const d = new Date(parseInt(p[0], 10), parseInt(p[1], 10) - 1, parseInt(p[2], 10));
+    return isNaN(d.getTime()) ? null : d;
+  }
+
+  function renderDashboard() {
+    const { start, end } = dashWeekRange(dashWeekOffset);
+    document.getElementById('dash-week-label').textContent = dashFmtDate(start) + ' – ' + dashFmtDate(end);
+
+    const items = DASHBOARD_ITEMS || [];
+    const inWeek = items.filter(it => { const d = dashParseDate(it.date); return d && d >= start && d <= end; });
+    const doneThisWeek = inWeek.filter(it => it.done);
+    const pendingThisWeek = inWeek.filter(it => !it.done);
+    const overdueBefore = items.filter(it => { const d = dashParseDate(it.date); return d && d < start && !it.done; });
+    const rate = inWeek.length ? Math.round((doneThisWeek.length / inWeek.length) * 100) : 0;
+
+    document.getElementById('dash-done').textContent = doneThisWeek.length;
+    document.getElementById('dash-pending').textContent = pendingThisWeek.length;
+    document.getElementById('dash-overdue').textContent = overdueBefore.length;
+    document.getElementById('dash-rate').textContent = rate + '%';
+
+    renderDashList('dash-list-done', 'dash-empty-done', doneThisWeek);
+    renderDashList('dash-list-pending', 'dash-empty-pending', pendingThisWeek);
+  }
+
+  function renderDashList(listId, emptyId, items) {
+    const list = document.getElementById(listId);
+    const empty = document.getElementById(emptyId);
+    list.innerHTML = '';
+    empty.style.display = items.length ? 'none' : 'block';
+    items
+      .slice()
+      .sort((a, b) => (a.date + (a.time || '')).localeCompare(b.date + (b.time || '')))
+      .forEach(it => {
+        const row = document.createElement('div');
+        row.className = 'dash-item' + (it.done ? ' done' : '');
+        const left = document.createElement('div');
+        const titleEl = document.createElement('div');
+        titleEl.className = 'dash-item-title';
+        titleEl.textContent = it.title;
+        const metaEl = document.createElement('div');
+        metaEl.className = 'dash-item-meta';
+        const d = dashParseDate(it.date);
+        metaEl.textContent = (d ? dashFmtDate(d) : '') + (it.time ? ' · ' + it.time : '');
+        left.appendChild(titleEl);
+        left.appendChild(metaEl);
+        const ownerEl = document.createElement('div');
+        ownerEl.className = 'dash-item-owner';
+        ownerEl.textContent = it.owner;
+        row.appendChild(left);
+        row.appendChild(ownerEl);
+        list.appendChild(row);
+      });
   }
 
   /* ---------------- Learning Resources: tabs + search (DATA ENTRY, CS, SENIOR ทั้งหมด) ---------------- */
