@@ -599,6 +599,14 @@
     window.scrollTo(0, 0);
   }
 
+  // ลิงก์ที่คัดลอกมาจาก Google Drive (เช่น .../file/d/FILEID/view?usp=sharing) เป็นลิงก์ "หน้าดูไฟล์"
+  // ใช้เป็น <img src> ตรงๆ ไม่ได้ (เลยขึ้นไอคอน ? แตก) — แปลงเป็นลิงก์รูปตรงให้อัตโนมัติตรงนี้
+  function toDirectImageUrl(url) {
+    const m = url.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=[a-z]+&)?id=)([a-zA-Z0-9_-]+)/);
+    if (m && m[1]) return 'https://drive.google.com/thumbnail?id=' + m[1] + '&sz=w1000';
+    return url;
+  }
+
   function renderCategory(key, items, showLabel) {
     const grid = document.getElementById('grid-' + key);
     const empty = document.getElementById('empty-' + key);
@@ -618,7 +626,8 @@
         const looksLikeUrl = /^(https?:)?\/\//.test(item.image) || item.image.startsWith('data:');
         if (looksLikeUrl) {
           const img = document.createElement('img');
-          img.src = item.image;
+          img.src = toDirectImageUrl(item.image);
+          img.onerror = () => { thumb.textContent = '🔗'; img.remove(); };
           thumb.appendChild(img);
         } else {
           thumb.textContent = item.image; // emoji หรือข้อความสั้นๆ
