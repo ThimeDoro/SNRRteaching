@@ -447,62 +447,74 @@
      วางไว้ท้ายสุดของ style block โดยตั้งใจ: เพื่อให้ชนะกฎด้านบนที่ set ค่าเดิมไว้ (ลำดับ CSS ท้ายสุดชนะ
      เมื่อ specificity เท่ากัน) ห้ามย้ายขึ้นไปแทรกกลางไฟล์ ไม่งั้นจะโดนกฎ .nav-cards/.nav-card ด้านบนทับอีก */
   @media (min-width: 760px) {
-    .wrap { max-width: 900px; padding: 56px 32px 90px; }
+    .wrap { max-width: 1100px; padding: 56px 40px 90px; }
     .login-box { max-width: 440px; margin-left: auto; margin-right: auto; }
-    /* ขนาดกลาง (แท็บเล็ต/จอเล็กสุดที่ container เริ่มขยาย) — ขยับฟอนต์ขึ้นเล็กน้อยจากมือถือ */
-    .brand-title { font-size: 2.3rem; }
-    .brand-tag { font-size: 1rem; }
-    .nav-card { font-size: 1.2rem; }
-    .cat-title { font-size: 2.1rem; }
-    .cat-sub { font-size: 1.02rem; padding: 7px 18px; }
-    .item-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
-    .item-thumb { font-size: 2rem; }
-    .item-name { font-size: 0.9rem; }
-    .item-label { font-size: 0.68rem; }
-    .login-box { padding: 30px 26px; }
-    .login-box input, .submit-btn { font-size: 1rem; }
-    .lr-tab { font-size: 0.95rem; padding: 9px 18px; }
-    .lr-search { font-size: 1rem; }
-    .lr-add-btn, .lr-refresh-btn { font-size: 0.95rem; padding: 10px 20px; }
-    .back-btn { font-size: 1.15rem; }
-    .logout-link { font-size: 1rem; padding: 10px 22px; }
-    .dash-stat-n { font-size: 1.8rem; }
-    .modal-box { padding: 28px 24px; }
+    /* จอ ≥760px แต่ยังไม่ถึง 1280px (เมนูยังเป็นคอลัมน์เดียวเต็มความกว้าง — ครอบคลุมกรณี Split View บนแมคด้วย ข้อ 17)
+       การ์ด/กล่องกว้างเต็มแถวแล้ว เลยต้องขยายฟอนต์/padding ให้สมส่วนกับพื้นที่ ไม่ใช่แค่ "ขยับขึ้นเล็กน้อย" เหมือนเดิม */
+    .brand-title { font-size: 3rem; }
+    .brand-tag { font-size: 1.15rem; }
+    .nav-card { font-size: 1.6rem; padding: 30px 34px; gap: 24px; }
+    .nav-card .emoji { width: 56px; height: 56px; font-size: 1.7rem; }
+    .cat-title { font-size: 2.6rem; }
+    .cat-sub { font-size: 1.15rem; padding: 8px 20px; }
+    .item-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 22px; }
+    .item-thumb { font-size: 2.4rem; }
+    .item-name { font-size: 1.05rem; padding: 14px 16px 16px; min-height: 2.8em; }
+    .item-label { font-size: 0.78rem; padding: 0 16px 16px; }
+    .empty-note { font-size: 1.05rem; }
+    .login-box { padding: 36px 32px; }
+    .login-box label { font-size: 0.95rem; }
+    .login-box input, .submit-btn { font-size: 1.1rem; }
+    .lr-tabs { gap: 12px; margin-bottom: 18px; }
+    .lr-tab { font-size: 1.1rem; padding: 12px 24px; }
+    .lr-search { font-size: 1.1rem; padding: 15px 18px; }
+    .lr-toolbar { gap: 14px; margin-bottom: 18px; }
+    .lr-add-btn, .lr-refresh-btn { font-size: 1.1rem; padding: 13px 26px; }
+    .external-link-card { font-size: 1.2rem; padding: 24px 26px; }
+    .back-btn { font-size: 1.3rem; }
+    .logout-link { font-size: 1.15rem; padding: 13px 28px; }
+    .dash-stat-n { font-size: 2.3rem; }
+    .dash-stat-l { font-size: 0.92rem; }
+    .modal-box { padding: 34px 30px; max-width: 480px; }
+    .modal-title { font-size: 1.3rem; }
+    .modal-box label { font-size: 0.95rem; }
+    .modal-box input[type="text"] { font-size: 1.1rem; padding: 13px 15px; }
+    .modal-cancel-btn { font-size: 1.1rem; padding: 15px; }
   }
   /* จอคอมทั่วไป (~1024px ขึ้นไป) — ขยายฟอนต์/บล็อกให้เหมาะกับจอใหญ่ ไม่ให้ดูจิ๋วเกินไปเมื่อเทียบกับพื้นที่ */
   @media (min-width: 1024px) {
     .wrap { max-width: 1180px; }
-    .brand-title { font-size: 2.7rem; }
-    .brand-tag { font-size: 1.1rem; margin-bottom: 44px; }
-    .nav-card { font-size: 1.4rem; padding: 28px 32px; gap: 24px; }
-    .nav-card .emoji { width: 58px; height: 58px; font-size: 1.7rem; }
-    .cat-title { font-size: 2.4rem; }
-    .cat-sub { font-size: 1.1rem; padding: 8px 20px; }
-    .item-grid { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 20px; }
-    .item-thumb { font-size: 2.2rem; }
-    .item-name { font-size: 1rem; padding: 14px 16px 16px; min-height: 2.8em; }
+    .brand-title { font-size: 3.15rem; }
+    .brand-tag { font-size: 1.2rem; margin-bottom: 44px; }
+    .nav-card { font-size: 1.7rem; padding: 32px 36px; gap: 26px; }
+    .nav-card .emoji { width: 60px; height: 60px; font-size: 1.8rem; }
+    .cat-title { font-size: 2.75rem; }
+    .cat-sub { font-size: 1.2rem; padding: 9px 22px; }
+    .item-grid { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 24px; }
+    .item-thumb { font-size: 2.5rem; }
+    .item-name { font-size: 1.1rem; padding: 15px 17px 17px; min-height: 2.9em; }
     .item-name.has-label { padding-bottom: 4px; }
-    .item-label { font-size: 0.74rem; padding: 0 16px 16px; }
-    .empty-note { font-size: 1.05rem; }
-    .login-box { padding: 34px 30px; }
-    .login-box label { font-size: 0.95rem; }
-    .login-box input { font-size: 1.05rem; padding: 14px 16px; }
-    .submit-btn { font-size: 1.05rem; padding: 15px; }
-    .lr-tabs { gap: 12px; margin-bottom: 18px; }
-    .lr-tab { font-size: 1.05rem; padding: 12px 24px; }
-    .lr-search { font-size: 1.1rem; padding: 15px 18px; margin-bottom: 20px; }
-    .lr-toolbar { gap: 14px; margin-bottom: 18px; }
-    .lr-add-btn, .lr-refresh-btn { font-size: 1.05rem; padding: 13px 26px; }
-    .back-btn { font-size: 1.25rem; }
-    .logout-link { font-size: 1.05rem; padding: 12px 26px; }
-    .external-link-card { font-size: 1.15rem; padding: 24px 26px; }
-    .dash-stat-n { font-size: 2.1rem; }
-    .dash-stat-l { font-size: 0.9rem; }
-    .modal-box { padding: 32px 30px; max-width: 480px; }
-    .modal-title { font-size: 1.3rem; margin-bottom: 20px; }
-    .modal-box label { font-size: 0.95rem; }
-    .modal-box input[type="text"] { font-size: 1.05rem; padding: 13px 15px; margin-bottom: 16px; }
-    .modal-cancel-btn { font-size: 1.05rem; padding: 15px; }
+    .item-label { font-size: 0.8rem; padding: 0 17px 17px; }
+    .empty-note { font-size: 1.1rem; }
+    .login-box { padding: 38px 34px; }
+    .login-box label { font-size: 1rem; }
+    .login-box input { font-size: 1.15rem; padding: 15px 18px; }
+    .submit-btn { font-size: 1.15rem; padding: 16px; }
+    .lr-tabs { gap: 13px; margin-bottom: 19px; }
+    .lr-tab { font-size: 1.15rem; padding: 13px 26px; }
+    .lr-search { font-size: 1.15rem; padding: 16px 19px; margin-bottom: 20px; }
+    .lr-toolbar { gap: 15px; margin-bottom: 19px; }
+    .lr-add-btn, .lr-refresh-btn { font-size: 1.15rem; padding: 14px 27px; }
+    .back-btn { font-size: 1.35rem; }
+    .logout-link { font-size: 1.2rem; padding: 14px 29px; }
+    .external-link-card { font-size: 1.25rem; padding: 25px 27px; }
+    .dash-stat-n { font-size: 2.4rem; }
+    .dash-stat-l { font-size: 0.95rem; }
+    .modal-box { padding: 36px 32px; max-width: 490px; }
+    .modal-title { font-size: 1.35rem; margin-bottom: 20px; }
+    .modal-box label { font-size: 1rem; }
+    .modal-box input[type="text"] { font-size: 1.15rem; padding: 14px 16px; margin-bottom: 16px; }
+    .modal-cancel-btn { font-size: 1.15rem; padding: 16px; }
   }
   /* จอกว้าง (~1280px ขึ้นไป — หน้าต่างเบราว์เซอร์เต็มจอบนคอมทั่วไป) — ขยายอีกขั้น */
   @media (min-width: 1280px) {
