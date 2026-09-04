@@ -107,9 +107,20 @@
   .view.active { display: block; }
   .back-btn {
     background: none; border: none; color: var(--cream);
-    font-size: 0.95rem; font-weight: 600; cursor: pointer;
+    font-size: 1.05rem; font-weight: 700; cursor: pointer;
     display: flex; align-items: center; gap: 6px; margin-bottom: 18px; padding: 0;
+    text-shadow: 0 2px 3px rgba(0,0,0,0.28), 0 1px 10px rgba(122,42,82,0.3);
   }
+  /* แถวหัวหน้า (ปุ่มย้อนกลับ + ปุ่มออกจากระบบ) — จัดให้ออกจากระบบชิดขวา เมื่อมีทั้งคู่ในหน้าเดียวกัน */
+  .view-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .view-header-row .back-btn, .view-header-row .logout-link { margin-bottom: 0; margin-left: 0; }
   .cat-title {
     font-size: 1.7rem; font-weight: 700; margin: 0 0 2px;
     letter-spacing: 0.02em;
@@ -158,7 +169,13 @@
   }
   .item-name.has-label { padding-bottom: 2px; }
   .empty-note {
-    color: var(--tan); font-size: 0.9rem;
+    color: var(--ink);
+    background: rgba(255,255,255,0.55);
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
   }
   /* ---------- SENIOR login ---------- */
   .login-box {
@@ -210,15 +227,18 @@
   }
   .logout-link {
     display: inline-block;
-    background: none;
+    background: var(--cream);
     border: none;
-    color: var(--cream);
-    font-size: 0.85rem;
-    font-weight: 600;
-    text-decoration: underline;
+    border-radius: 999px;
+    color: var(--ink);
+    font-size: 0.95rem;
+    font-weight: 700;
+    font-family: inherit;
+    text-decoration: none;
     cursor: pointer;
-    padding: 0;
+    padding: 9px 20px;
     margin-left: 12px;
+    box-shadow: var(--shadow);
   }
   /* ---------- Learning Resources: tabs + search ---------- */
   .lr-tabs {
@@ -446,6 +466,8 @@
     .lr-tab { font-size: 0.95rem; padding: 9px 18px; }
     .lr-search { font-size: 1rem; }
     .lr-add-btn, .lr-refresh-btn { font-size: 0.95rem; padding: 10px 20px; }
+    .back-btn { font-size: 1.15rem; }
+    .logout-link { font-size: 1rem; padding: 10px 22px; }
     .dash-stat-n { font-size: 1.8rem; }
     .modal-box { padding: 28px 24px; }
   }
@@ -473,6 +495,8 @@
     .lr-search { font-size: 1.1rem; padding: 15px 18px; margin-bottom: 20px; }
     .lr-toolbar { gap: 14px; margin-bottom: 18px; }
     .lr-add-btn, .lr-refresh-btn { font-size: 1.05rem; padding: 13px 26px; }
+    .back-btn { font-size: 1.25rem; }
+    .logout-link { font-size: 1.05rem; padding: 12px 26px; }
     .external-link-card { font-size: 1.15rem; padding: 24px 26px; }
     .dash-stat-n { font-size: 2.1rem; }
     .dash-stat-l { font-size: 0.9rem; }
@@ -502,6 +526,8 @@
     .lr-tab { font-size: 1.2rem; padding: 14px 28px; }
     .lr-search { font-size: 1.2rem; padding: 17px 22px; }
     .lr-add-btn, .lr-refresh-btn { font-size: 1.2rem; padding: 15px 30px; }
+    .back-btn { font-size: 1.35rem; }
+    .logout-link { font-size: 1.2rem; padding: 15px 30px; }
     .external-link-card { font-size: 1.3rem; padding: 28px 30px; }
     .dash-stat-n { font-size: 2.5rem; }
     .dash-stat-l { font-size: 0.98rem; }
@@ -530,6 +556,8 @@
     .lr-tab { font-size: 1.3rem; padding: 15px 30px; }
     .lr-search { font-size: 1.3rem; }
     .lr-add-btn, .lr-refresh-btn { font-size: 1.3rem; padding: 16px 32px; }
+    .back-btn { font-size: 1.45rem; }
+    .logout-link { font-size: 1.3rem; padding: 16px 32px; }
     .external-link-card { font-size: 1.4rem; padding: 30px 32px; }
     .dash-stat-n { font-size: 2.8rem; }
     .dash-stat-l { font-size: 1.05rem; }
@@ -703,8 +731,10 @@
     </div>
   </div>
   <div id="view-senior-menu" class="view">
-    <button class="back-btn" onclick="showView('home')">← กลับหน้าแรก</button>
-    <button class="logout-link" onclick="seniorLogout()">ออกจากระบบ</button>
+    <div class="view-header-row">
+      <button class="back-btn" onclick="showView('home')">← กลับหน้าแรก</button>
+      <button class="logout-link" onclick="seniorLogout()">ออกจากระบบ</button>
+    </div>
     <h2 class="cat-title" style="margin-top:14px;">SENIOR</h2>
     <p class="cat-sub">เลือกเมนู</p>
     <div class="nav-cards">
@@ -753,8 +783,10 @@
     <div class="empty-note" id="dash-empty-pending">ยังไม่มีรายการ</div>
   </div>
   <div id="view-senior-personal-menu" class="view">
-    <button class="back-btn" onclick="showView('senior-menu')">← กลับ SENIOR</button>
-    <button class="logout-link" onclick="seniorLogout()">ออกจากระบบ</button>
+    <div class="view-header-row">
+      <button class="back-btn" onclick="showView('senior-menu')">← กลับ SENIOR</button>
+      <button class="logout-link" onclick="seniorLogout()">ออกจากระบบ</button>
+    </div>
     <h2 class="cat-title" style="margin-top:14px;">โน้ตส่วนตัว</h2>
     <p class="cat-sub" id="senior-personal-menu-sub">เห็นเฉพาะฉันคนเดียว</p>
     <div class="nav-cards">
