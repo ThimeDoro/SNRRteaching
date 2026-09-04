@@ -427,6 +427,22 @@
     .nav-cards { flex-direction: row; flex-wrap: wrap; }
     .nav-card { flex: 1 1 calc(50% - 8px); }
     .login-box { max-width: 440px; margin-left: auto; margin-right: auto; }
+    /* ขนาดกลาง (แท็บเล็ต/จอเล็กสุดที่ container เริ่มขยาย) — ขยับฟอนต์ขึ้นเล็กน้อยจากมือถือ */
+    .brand-title { font-size: 2.3rem; }
+    .brand-tag { font-size: 1rem; }
+    .nav-card { font-size: 1.2rem; }
+    .cat-title { font-size: 1.9rem; }
+    .cat-sub { font-size: 0.98rem; }
+    .item-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
+    .item-thumb { font-size: 2rem; }
+    .item-name { font-size: 0.9rem; }
+    .item-label { font-size: 0.68rem; }
+    .login-box { padding: 30px 26px; }
+    .login-box input, .submit-btn { font-size: 1rem; }
+    .lr-tab { font-size: 0.88rem; }
+    .lr-search { font-size: 0.95rem; }
+    .dash-stat-n { font-size: 1.8rem; }
+    .modal-box { padding: 28px 24px; }
   }
   @media (min-width: 1080px) {
     .wrap { max-width: 1120px; }
@@ -460,6 +476,35 @@
     .modal-box label { font-size: 0.95rem; }
     .modal-box input[type="text"] { font-size: 1.05rem; padding: 13px 15px; margin-bottom: 16px; }
     .modal-cancel-btn { font-size: 1.05rem; padding: 15px; }
+  }
+  /* จอกว้างมากๆ (จอคอมใหญ่ ~1400px ขึ้นไป) — ขยายอีกขั้น กันดูจิ๋วเมื่อเทียบกับพื้นที่จอ */
+  @media (min-width: 1400px) {
+    .wrap { max-width: 1280px; }
+    .brand-title { font-size: 3rem; }
+    .brand-tag { font-size: 1.15rem; }
+    .nav-card { font-size: 1.45rem; padding: 30px 34px; gap: 26px; }
+    .nav-card .emoji { width: 60px; height: 60px; font-size: 1.8rem; }
+    .cat-title { font-size: 2.5rem; }
+    .cat-sub { font-size: 1.05rem; padding: 8px 20px; }
+    .item-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 24px; }
+    .item-thumb { font-size: 2.5rem; }
+    .item-name { font-size: 1.05rem; padding: 16px 18px 18px; min-height: 3em; }
+    .item-label { font-size: 0.78rem; padding: 0 18px 18px; }
+    .login-box { padding: 40px 36px; max-width: 480px; }
+    .login-box label { font-size: 1rem; }
+    .login-box input { font-size: 1.1rem; padding: 15px 18px; }
+    .submit-btn { font-size: 1.1rem; padding: 16px; }
+    .lr-tab { font-size: 1rem; padding: 11px 22px; }
+    .lr-search { font-size: 1.05rem; padding: 14px 18px; }
+    .lr-add-btn, .lr-refresh-btn { font-size: 1rem; padding: 12px 24px; }
+    .external-link-card { font-size: 1.25rem; padding: 26px 28px; }
+    .dash-stat-n { font-size: 2.3rem; }
+    .dash-stat-l { font-size: 0.92rem; }
+    .modal-box { padding: 36px 34px; max-width: 520px; }
+    .modal-title { font-size: 1.4rem; }
+    .modal-box label { font-size: 1rem; }
+    .modal-box input[type="text"] { font-size: 1.1rem; padding: 14px 16px; }
+    .modal-cancel-btn { font-size: 1.1rem; padding: 16px; }
   }
 </style>
 </head>
