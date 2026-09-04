@@ -448,8 +448,6 @@
      เมื่อ specificity เท่ากัน) ห้ามย้ายขึ้นไปแทรกกลางไฟล์ ไม่งั้นจะโดนกฎ .nav-cards/.nav-card ด้านบนทับอีก */
   @media (min-width: 760px) {
     .wrap { max-width: 900px; padding: 56px 32px 90px; }
-    .nav-cards { flex-direction: row; flex-wrap: wrap; }
-    .nav-card { flex: 1 1 calc(50% - 8px); }
     .login-box { max-width: 440px; margin-left: auto; margin-right: auto; }
     /* ขนาดกลาง (แท็บเล็ต/จอเล็กสุดที่ container เริ่มขยาย) — ขยับฟอนต์ขึ้นเล็กน้อยจากมือถือ */
     .brand-title { font-size: 2.3rem; }
@@ -509,6 +507,9 @@
   /* จอกว้าง (~1280px ขึ้นไป — หน้าต่างเบราว์เซอร์เต็มจอบนคอมทั่วไป) — ขยายอีกขั้น */
   @media (min-width: 1280px) {
     .wrap { max-width: 1440px; }
+    /* จอต้องกว้างจริงๆ ถึงจะขึ้นเมนู 2 คอลัมน์ — เดิมสลับที่ 760px ทำให้หน้าต่างที่ย่อไม่สุด (เช่น Split View บนแมค ~1100-1150px) ก็ยังเห็น 2 คอลัมน์ทั้งที่อยากให้เป็นคอลัมน์เดียวแบบมือถือ */
+    .nav-cards { flex-direction: row; flex-wrap: wrap; }
+    .nav-card { flex: 1 1 calc(50% - 8px); }
     .brand-title { font-size: 3.4rem; }
     .brand-tag { font-size: 1.2rem; }
     .nav-card { font-size: 1.65rem; padding: 34px 38px; gap: 28px; }
