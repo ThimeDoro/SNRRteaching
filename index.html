@@ -44,16 +44,6 @@
     margin: 0 auto;
     padding: 40px 20px 64px;
   }
-  /* ---------- หน้าจอกว้าง (เปิดในคอม) — ขยายพื้นที่ใช้งาน ไม่ให้กองแคบๆ ตรงกลาง ---------- */
-  @media (min-width: 760px) {
-    .wrap { max-width: 900px; padding: 56px 32px 90px; }
-    .nav-cards { flex-direction: row; flex-wrap: wrap; }
-    .nav-card { flex: 1 1 calc(50% - 8px); }
-    .login-box { max-width: 440px; margin-left: auto; margin-right: auto; }
-  }
-  @media (min-width: 1080px) {
-    .wrap { max-width: 1120px; }
-  }
   /* ---------- หน้าแรก ---------- */
   .logo-circle {
     width: 150px;
@@ -88,11 +78,11 @@
   .nav-card {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 18px;
     background: var(--cream);
     color: var(--ink);
     border-radius: 20px;
-    padding: 20px 22px;
+    padding: 22px 26px;
     text-decoration: none;
     box-shadow: var(--shadow);
     cursor: pointer;
@@ -315,6 +305,131 @@
     font-weight: 700;
     font-size: 1.05rem;
     text-align: center;
+  }
+  /* ---------- เพิ่มรายการ (SENIOR) + ปุ่มรีเฟรช ---------- */
+  .lr-toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .lr-add-btn, .lr-refresh-btn {
+    border: none;
+    border-radius: 999px;
+    padding: 9px 18px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+  .lr-add-btn { background: var(--cream); color: var(--ink); }
+  .lr-refresh-btn { background: rgba(255,255,255,0.35); color: var(--cream); }
+  .lr-refresh-btn:disabled { opacity: 0.6; cursor: default; }
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(30, 10, 20, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 50;
+  }
+  .modal-box {
+    background: var(--cream);
+    border-radius: 20px;
+    padding: 24px 22px;
+    box-shadow: var(--shadow);
+    width: 100%;
+    max-width: 420px;
+    max-height: 88vh;
+    overflow-y: auto;
+  }
+  .modal-title {
+    font-size: 1.1rem; font-weight: 700; color: var(--ink);
+    margin: 0 0 16px;
+  }
+  .modal-box label {
+    display: block;
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin: 0 0 6px;
+  }
+  .modal-box input[type="text"] {
+    width: 100%;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+    border-radius: 12px;
+    border: 2px solid var(--tan);
+    font-family: inherit;
+    font-size: 1rem;
+    background: #fff;
+    color: var(--ink);
+  }
+  .modal-box input[type="text"]:focus { outline: none; border-color: var(--pink); }
+  .lr-add-teams {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+  .chk {
+    display: flex !important;
+    align-items: center;
+    gap: 6px;
+    background: rgba(122,42,82,0.08);
+    border-radius: 999px;
+    padding: 7px 12px;
+    font-weight: 600 !important;
+    font-size: 0.8rem !important;
+    margin: 0 !important;
+    cursor: pointer;
+  }
+  .chk input { margin: 0; }
+  .lr-add-hint {
+    font-size: 0.75rem;
+    color: var(--ink);
+    opacity: 0.65;
+    margin: -8px 0 14px;
+    line-height: 1.4;
+  }
+  .modal-error {
+    color: #c0392b;
+    font-size: 0.85rem;
+    min-height: 1.2em;
+    margin-bottom: 6px;
+    text-align: center;
+  }
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 6px;
+  }
+  .modal-cancel-btn {
+    flex: 1;
+    padding: 13px;
+    border-radius: 12px;
+    border: 2px solid var(--tan);
+    background: none;
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 1rem;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .modal-actions .submit-btn { flex: 1; margin: 0; width: auto; }
+  /* ---------- หน้าจอกว้าง (เปิดในคอม) — ขยายพื้นที่ใช้งาน ไม่ให้กองแคบๆ ตรงกลาง ----------
+     วางไว้ท้ายสุดของ style block โดยตั้งใจ: เพื่อให้ชนะกฎด้านบนที่ set ค่าเดิมไว้ (ลำดับ CSS ท้ายสุดชนะ
+     เมื่อ specificity เท่ากัน) ห้ามย้ายขึ้นไปแทรกกลางไฟล์ ไม่งั้นจะโดนกฎ .nav-cards/.nav-card ด้านบนทับอีก */
+  @media (min-width: 760px) {
+    .wrap { max-width: 900px; padding: 56px 32px 90px; }
+    .nav-cards { flex-direction: row; flex-wrap: wrap; }
+    .nav-card { flex: 1 1 calc(50% - 8px); }
+    .login-box { max-width: 440px; margin-left: auto; margin-right: auto; }
+  }
+  @media (min-width: 1080px) {
+    .wrap { max-width: 1120px; }
   }
 </style>
 </head>
@@ -558,6 +673,17 @@
     <button class="back-btn" onclick="showView('senior-menu')">← กลับ SENIOR</button>
     <h2 class="cat-title">ไฟล์ที่ใช้งานทั้งหมด</h2>
     <p class="cat-sub">ทุกทีม</p>
+    <div class="lr-toolbar">
+      <button class="lr-add-btn" onclick="openAddLRModal('files', 'ไฟล์ที่ใช้งานทั้งหมด')">+ เพิ่มรายการ</button>
+      <button class="lr-refresh-btn" id="lr-refresh-senior-files-all" onclick="refreshLRData(this)">🔄 รีเฟรช</button>
+    </div>
+    <div class="lr-tabs" id="teamfilter-senior-files-all">
+      <button class="lr-tab active" data-team="all">ทุกทีม</button>
+      <button class="lr-tab" data-team="dataentry">DATA ENTRY</button>
+      <button class="lr-tab" data-team="csbackend">CUSTOMER SERVICE</button>
+      <button class="lr-tab" data-team="csfrontend">FRONTEND</button>
+      <button class="lr-tab" data-team="senior">ซีเนียร์</button>
+    </div>
     <input class="lr-search" id="search-senior-files-all" type="text" placeholder="ค้นหา (ชื่อไฟล์ หรือ ทีม)...">
     <div class="item-grid" id="grid-senior-files-all"></div>
     <div class="empty-note" id="empty-senior-files-all">ยังไม่มีรายการ</div>
@@ -566,6 +692,17 @@
     <button class="back-btn" onclick="showView('senior-menu')">← กลับ SENIOR</button>
     <h2 class="cat-title">สื่อการสอนทั้งหมด</h2>
     <p class="cat-sub">ทุกทีม</p>
+    <div class="lr-toolbar">
+      <button class="lr-add-btn" onclick="openAddLRModal('media', 'สื่อการสอนทั้งหมด')">+ เพิ่มรายการ</button>
+      <button class="lr-refresh-btn" id="lr-refresh-senior-media-all" onclick="refreshLRData(this)">🔄 รีเฟรช</button>
+    </div>
+    <div class="lr-tabs" id="teamfilter-senior-media-all">
+      <button class="lr-tab active" data-team="all">ทุกทีม</button>
+      <button class="lr-tab" data-team="dataentry">DATA ENTRY</button>
+      <button class="lr-tab" data-team="csbackend">CUSTOMER SERVICE</button>
+      <button class="lr-tab" data-team="csfrontend">FRONTEND</button>
+      <button class="lr-tab" data-team="senior">ซีเนียร์</button>
+    </div>
     <input class="lr-search" id="search-senior-media-all" type="text" placeholder="ค้นหา (ชื่อสื่อ หรือ ทีม)...">
     <div class="item-grid" id="grid-senior-media-all"></div>
     <div class="empty-note" id="empty-senior-media-all">ยังไม่มีรายการ</div>
@@ -574,9 +711,43 @@
     <button class="back-btn" onclick="showView('senior-menu')">← กลับ SENIOR</button>
     <h2 class="cat-title">บททดสอบ</h2>
     <p class="cat-sub">ทุกทีม</p>
+    <div class="lr-toolbar">
+      <button class="lr-add-btn" onclick="openAddLRModal('tests', 'บททดสอบ')">+ เพิ่มรายการ</button>
+      <button class="lr-refresh-btn" id="lr-refresh-senior-tests-all" onclick="refreshLRData(this)">🔄 รีเฟรช</button>
+    </div>
+    <div class="lr-tabs" id="teamfilter-senior-tests-all">
+      <button class="lr-tab active" data-team="all">ทุกทีม</button>
+      <button class="lr-tab" data-team="dataentry">DATA ENTRY</button>
+      <button class="lr-tab" data-team="csbackend">CUSTOMER SERVICE</button>
+      <button class="lr-tab" data-team="csfrontend">FRONTEND</button>
+      <button class="lr-tab" data-team="senior">ซีเนียร์</button>
+    </div>
     <input class="lr-search" id="search-senior-tests-all" type="text" placeholder="ค้นหา (ชื่อบททดสอบ หรือ ทีม)...">
     <div class="item-grid" id="grid-senior-tests-all"></div>
     <div class="empty-note" id="empty-senior-tests-all">ยังไม่มีรายการ</div>
+  </div>
+  <div id="lr-add-overlay" class="modal-overlay" style="display:none;">
+    <div class="modal-box">
+      <h3 class="modal-title" id="lr-add-title">เพิ่มรายการ</h3>
+      <label>ชื่อรายการ</label>
+      <input type="text" id="lr-add-name" placeholder="เช่น PSA Guide">
+      <label>ทีมที่เห็นรายการนี้ (เลือกได้มากกว่า 1)</label>
+      <div class="lr-add-teams">
+        <label class="chk"><input type="checkbox" id="lr-add-team-dataentry" value="dataentry"> DATA ENTRY</label>
+        <label class="chk"><input type="checkbox" id="lr-add-team-csbackend" value="csbackend"> CUSTOMER SERVICE</label>
+        <label class="chk"><input type="checkbox" id="lr-add-team-csfrontend" value="csfrontend"> FRONTEND</label>
+      </div>
+      <p class="lr-add-hint">ไม่ติ๊กทีมไหนเลย = เห็นเฉพาะในหน้า SENIOR เท่านั้น พนักงานทีมย่อยจะไม่เห็นรายการนี้เลย (ใช้สำหรับไฟล์/สื่อ/บททดสอบเฉพาะซีเนียร์)</p>
+      <label>รูป (ใส่อีโมจิ หรือวางลิงก์รูปก็ได้ ไม่ใส่ก็ได้)</label>
+      <input type="text" id="lr-add-image" placeholder="เช่น 💙 หรือลิงก์ Google Drive">
+      <label>ลิงก์ (URL ที่จะเปิดเมื่อกดรายการนี้)</label>
+      <input type="text" id="lr-add-link" placeholder="https://...">
+      <div class="modal-error" id="lr-add-error"></div>
+      <div class="modal-actions">
+        <button class="modal-cancel-btn" onclick="closeAddLRModal()">ยกเลิก</button>
+        <button class="submit-btn" id="lr-add-submit-btn" onclick="submitAddLRItem()">บันทึก</button>
+      </div>
+    </div>
   </div>
 </div>
 <script>
@@ -918,6 +1089,15 @@
     'senior-media-all':    { section: 'media', query: '' },
     'senior-tests-all':    { section: 'tests', query: '' }
   };
+  // ตัวกรองทีมในหน้า SENIOR "ทั้งหมด" 3 หน้า — เริ่มต้น 'all' (ทุกทีม) เปลี่ยนได้จากแท็บ (ดูตอนล่างที่ผูก event)
+  // 'senior' = รายการที่ไม่ติ๊กทีมไหนเลยตอนเพิ่ม (ดูข้อ 8 ในบันทึกโปรเจกต์) = เฉพาะซีเนียร์เท่านั้น
+  const lrSeniorTeamFilter = { 'senior-files-all': 'all', 'senior-media-all': 'all', 'senior-tests-all': 'all' };
+  function seniorTeamMatch(key, it) {
+    const f = lrSeniorTeamFilter[key];
+    if (f === 'all') return true;
+    if (f === 'senior') return !it.team || it.team.length === 0;
+    return it.team.includes(f);
+  }
   const lrTeamFilters = {
     'dataentry-lr':        it => it.team.includes('dataentry'),
     'dataentry-eval':      it => it.team.includes('dataentry'),
@@ -925,9 +1105,9 @@
     'cs-eval':             it => it.team.includes('csbackend'),
     'frontend-lr':         it => it.team.includes('csfrontend'),
     'frontend-eval':       it => it.team.includes('csfrontend'),
-    'senior-files-all':    () => true,
-    'senior-media-all':    () => true,
-    'senior-tests-all':    () => true
+    'senior-files-all':    it => seniorTeamMatch('senior-files-all', it),
+    'senior-media-all':    it => seniorTeamMatch('senior-media-all', it),
+    'senior-tests-all':    it => seniorTeamMatch('senior-tests-all', it)
   };
   const lrShowLabel = {
     'dataentry-lr': false,
@@ -994,6 +1174,20 @@
     });
   });
 
+  // แท็บกรองทีมในหน้า SENIOR "ทั้งหมด" 3 หน้า (ไฟล์/สื่อ/บททดสอบ) — ทุกทีม / DATA ENTRY / CUSTOMER SERVICE / FRONTEND / ซีเนียร์
+  ['senior-files-all', 'senior-media-all', 'senior-tests-all'].forEach(key => {
+    const tabsEl = document.getElementById('teamfilter-' + key);
+    if (!tabsEl) return;
+    tabsEl.querySelectorAll('.lr-tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabsEl.querySelectorAll('.lr-tab').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        lrSeniorTeamFilter[key] = btn.dataset.team;
+        renderLR(key);
+      });
+    });
+  });
+
   // ช่องค้นหาของทุกหน้า Learning Resources
   Object.keys(lrTabState).forEach(key => {
     const input = document.getElementById('search-' + key);
@@ -1004,10 +1198,90 @@
     });
   });
 
-  fetch(LR_SHEET_URL + '&_=' + Date.now(), { cache: 'no-store' })
-    .then(res => { if (!res.ok) throw new Error('fetch failed: ' + res.status); return res.text(); })
-    .then(text => { LR_DATA = parseLRCsv(text); renderAllLR(); })
-    .catch(err => console.warn('โหลด Learning Resources ไม่สำเร็จ:', err));
+  // โหลดข้อมูล Learning Resources จากชีท — ใช้ทั้งตอนเปิดหน้าเว็บครั้งแรก และตอนกดปุ่มรีเฟรช/หลังเพิ่มรายการสำเร็จ
+  function loadLRData(onDone) {
+    return fetch(LR_SHEET_URL + '&_=' + Date.now(), { cache: 'no-store' })
+      .then(res => { if (!res.ok) throw new Error('fetch failed: ' + res.status); return res.text(); })
+      .then(text => { LR_DATA = parseLRCsv(text); renderAllLR(); if (onDone) onDone(true); })
+      .catch(err => { console.warn('โหลด Learning Resources ไม่สำเร็จ:', err); if (onDone) onDone(false); });
+  }
+  loadLRData();
+
+  // ปุ่มรีเฟรชในหน้า ไฟล์/สื่อ/บททดสอบ ทั้งหมด ของ SENIOR — โหลดชีทใหม่แล้วเรนเดอร์ทับของเดิม
+  function refreshLRData(btnEl) {
+    if (btnEl) { btnEl.disabled = true; btnEl.textContent = '🔄 กำลังโหลด...'; }
+    loadLRData(function () {
+      if (btnEl) { btnEl.disabled = false; btnEl.textContent = '🔄 รีเฟรช'; }
+    });
+  }
+
+  /* ---------------- เพิ่มรายการใหม่ (SENIOR) — บันทึกลงชีท Learning Resources ผ่าน Apps Script ---------------- */
+  let lrAddSection = null;
+
+  function anySeniorToken() { return personalToken() || groupToken(); }
+
+  function openAddLRModal(section, title) {
+    lrAddSection = section;
+    document.getElementById('lr-add-title').textContent = 'เพิ่มรายการ — ' + title;
+    document.getElementById('lr-add-name').value = '';
+    document.getElementById('lr-add-image').value = '';
+    document.getElementById('lr-add-link').value = '';
+    document.getElementById('lr-add-team-dataentry').checked = false;
+    document.getElementById('lr-add-team-csbackend').checked = false;
+    document.getElementById('lr-add-team-csfrontend').checked = false;
+    document.getElementById('lr-add-error').textContent = '';
+    document.getElementById('lr-add-overlay').style.display = 'flex';
+  }
+
+  function closeAddLRModal() {
+    document.getElementById('lr-add-overlay').style.display = 'none';
+  }
+
+  function submitAddLRItem() {
+    const name = document.getElementById('lr-add-name').value.trim();
+    const image = document.getElementById('lr-add-image').value.trim();
+    const link = document.getElementById('lr-add-link').value.trim();
+    const team = ['dataentry', 'csbackend', 'csfrontend'].filter(
+      t => document.getElementById('lr-add-team-' + t).checked
+    );
+    const errEl = document.getElementById('lr-add-error');
+    if (!name) { errEl.textContent = 'กรอกชื่อรายการก่อนนะคะ'; return; }
+
+    const btn = document.getElementById('lr-add-submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'กำลังบันทึก...';
+    errEl.textContent = '';
+
+    fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        action: 'add_lr_item',
+        token: anySeniorToken(),
+        section: lrAddSection,
+        team: team,
+        name: name,
+        image: image,
+        link: link
+      })
+    })
+      .then(r => r.json())
+      .then(res => {
+        btn.disabled = false;
+        btn.textContent = 'บันทึก';
+        if (res && res.ok) {
+          closeAddLRModal();
+          loadLRData();
+        } else {
+          errEl.textContent = 'บันทึกไม่สำเร็จ ลองใหม่อีกครั้ง';
+        }
+      })
+      .catch(() => {
+        btn.disabled = false;
+        btn.textContent = 'บันทึก';
+        errEl.textContent = 'เชื่อมต่อไม่สำเร็จ เช็คอินเทอร์เน็ตแล้วลองใหม่';
+      });
+  }
 
   /* ---------------- พาร์ทส่วนตัว (ต้องล็อกอินรายคนก่อน — ทั้งชีทส่วนตัวและ Planner) ---------------- */
   function openPersonalArea() { requirePersonalLogin('personalarea'); }
