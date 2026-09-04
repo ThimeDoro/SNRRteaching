@@ -817,6 +817,10 @@
     <button class="back-btn" onclick="showView('senior-personal-menu')">← กลับ</button>
     <h2 class="cat-title">ชีทส่วนตัว</h2>
     <p class="cat-sub">เห็นเฉพาะฉันคนเดียว</p>
+    <div class="lr-toolbar">
+      <button class="lr-add-btn" onclick="openAddPersonalItemModal()">+ เพิ่มรายการ</button>
+      <button class="lr-refresh-btn" id="lr-refresh-senior-personal-list" onclick="refreshPersonalList(this)">🔄 รีเฟรช</button>
+    </div>
     <div class="item-grid" id="grid-senior-personal-list"></div>
     <div class="empty-note" id="empty-senior-personal-list">ยังไม่มีรายการ</div>
   </div>
@@ -897,6 +901,22 @@
       <div class="modal-actions">
         <button class="modal-cancel-btn" onclick="closeAddLRModal()">ยกเลิก</button>
         <button class="submit-btn" id="lr-add-submit-btn" onclick="submitAddLRItem()">บันทึก</button>
+      </div>
+    </div>
+  </div>
+  <div id="pitem-add-overlay" class="modal-overlay" style="display:none;">
+    <div class="modal-box">
+      <h3 class="modal-title">เพิ่มรายการ — ชีทส่วนตัว</h3>
+      <label>ชื่อรายการ</label>
+      <input type="text" id="pitem-add-name" placeholder="เช่น Note ประชุมทีม">
+      <label>รูป (ใส่อีโมจิ หรือวางลิงก์รูปก็ได้ ไม่ใส่ก็ได้)</label>
+      <input type="text" id="pitem-add-image" placeholder="เช่น 💙 หรือลิงก์ Google Drive">
+      <label>ลิงก์ (URL ที่จะเปิดเมื่อกดรายการนี้)</label>
+      <input type="text" id="pitem-add-link" placeholder="https://...">
+      <div class="modal-error" id="pitem-add-error"></div>
+      <div class="modal-actions">
+        <button class="modal-cancel-btn" onclick="closeAddPersonalItemModal()">ยกเลิก</button>
+        <button class="submit-btn" id="pitem-add-submit-btn" onclick="submitAddPersonalItem()">บันทึก</button>
       </div>
     </div>
   </div>
@@ -1051,15 +1071,22 @@
 
   let SENIOR_PERSON_ITEMS = []; // รายการจากชีท "รายการ SENIOR รายคน" — เก็บไว้กรองเฉพาะคนที่ล็อกอินตอนเปิด "ชีทส่วนตัว"
 
-  function loadSeniorMenuShared() {
-    showView('senior-menu');
-    fetch(APPS_SCRIPT_URL + '?action=data&token=' + encodeURIComponent(groupToken()) + '&_=' + Date.now(), { cache: 'no-store' })
+  // แยกฟังก์ชันโหลดข้อมูลออกจาก loadSeniorMenuShared() เพื่อให้ปุ่มรีเฟรชในหน้า "ชีทส่วนตัว"
+  // เรียกโหลดข้อมูลใหม่ได้เฉยๆ โดยไม่ต้องสลับกลับไปหน้าเมนู SENIOR ทุกครั้ง
+  function loadSeniorPersonItems(onDone) {
+    return fetch(APPS_SCRIPT_URL + '?action=data&token=' + encodeURIComponent(groupToken()) + '&_=' + Date.now(), { cache: 'no-store' })
       .then(r => r.json())
       .then(res => {
-        if (!res.ok) { seniorLogout(); return; }
+        if (!res.ok) { seniorLogout(); if (onDone) onDone(false); return; }
         SENIOR_PERSON_ITEMS = res.items || [];
+        if (onDone) onDone(true);
       })
-      .catch(() => { /* เก็บเมนูไว้ แต่รายการส่วนตัวอาจว่างถ้าโหลดไม่สำเร็จ */ });
+      .catch(() => { if (onDone) onDone(false); /* เก็บเมนูไว้ แต่รายการส่วนตัวอาจว่างถ้าโหลดไม่สำเร็จ */ });
+  }
+
+  function loadSeniorMenuShared() {
+    showView('senior-menu');
+    loadSeniorPersonItems();
   }
 
   let pendingPersonalAction = null; // 'personalarea' — งานที่รอทำต่อหลังล็อกอินรายคนสำเร็จ
@@ -1452,6 +1479,70 @@
     const items = SENIOR_PERSON_ITEMS.filter(it => it.person === personalPerson());
     renderCategory('senior-personal-list', items);
     showView('senior-personal-list');
+  }
+
+  // ปุ่มรีเฟรชในหน้า "ชีทส่วนตัว" — โหลดข้อมูลใหม่จาก Apps Script แล้วเรนเดอร์ทับของเดิม (กรองเฉพาะคนที่ล็อกอินอยู่)
+  function refreshPersonalList(btnEl) {
+    if (btnEl) { btnEl.disabled = true; btnEl.textContent = '🔄 กำลังโหลด...'; }
+    loadSeniorPersonItems(function () {
+      if (btnEl) { btnEl.disabled = false; btnEl.textContent = '🔄 รีเฟรช'; }
+      openPersonalList();
+    });
+  }
+
+  /* ---------------- เพิ่มรายการเองใน "ชีทส่วนตัว" — บันทึกลงชีท DATA_SHEET_ID ผ่าน Apps Script ---------------- */
+  function openAddPersonalItemModal() {
+    document.getElementById('pitem-add-name').value = '';
+    document.getElementById('pitem-add-image').value = '';
+    document.getElementById('pitem-add-link').value = '';
+    document.getElementById('pitem-add-error').textContent = '';
+    document.getElementById('pitem-add-overlay').style.display = 'flex';
+  }
+
+  function closeAddPersonalItemModal() {
+    document.getElementById('pitem-add-overlay').style.display = 'none';
+  }
+
+  function submitAddPersonalItem() {
+    const name = document.getElementById('pitem-add-name').value.trim();
+    const image = document.getElementById('pitem-add-image').value.trim();
+    const link = document.getElementById('pitem-add-link').value.trim();
+    const errEl = document.getElementById('pitem-add-error');
+    if (!name) { errEl.textContent = 'กรอกชื่อรายการก่อนนะคะ'; return; }
+
+    const btn = document.getElementById('pitem-add-submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'กำลังบันทึก...';
+    errEl.textContent = '';
+
+    fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        action: 'add_pitem',
+        token: personalToken(), // ต้องเป็น token ล็อกอินรายคน (ไม่ใช่ token ทีมกลาง) เพื่อรู้ว่าเป็นรายการของใคร
+        name: name,
+        image: image,
+        link: link
+      })
+    })
+      .then(r => r.json())
+      .then(res => {
+        btn.disabled = false;
+        btn.textContent = 'บันทึก';
+        if (res && res.ok) {
+          closeAddPersonalItemModal();
+          refreshPersonalList(document.getElementById('lr-refresh-senior-personal-list'));
+        } else {
+          const reason = (res && res.error) ? ' (' + res.error + ')' : ' (ไม่ทราบสาเหตุ — เซิร์ฟเวอร์ตอบกลับไม่ถูกต้อง)';
+          errEl.textContent = 'บันทึกไม่สำเร็จ' + reason + ' ลองใหม่อีกครั้ง';
+        }
+      })
+      .catch(function (err) {
+        btn.disabled = false;
+        btn.textContent = 'บันทึก';
+        errEl.textContent = 'เชื่อมต่อไม่สำเร็จ เช็คอินเทอร์เน็ตแล้วลองใหม่ (' + (err && err.message ? err.message : 'network error') + ')';
+      });
   }
 
   /* ---------------- Planner ส่วนตัว (ซิงก์ผ่าน Apps Script ตัวเดียวกัน — ต้องล็อกอินรายคนก่อน) ---------------- */
