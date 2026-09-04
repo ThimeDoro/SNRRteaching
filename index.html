@@ -777,6 +777,9 @@
     <button class="back-btn" onclick="showView('senior-menu')">← กลับ SENIOR</button>
     <h2 class="cat-title">Dashboard</h2>
     <p class="cat-sub">สรุปงานทุกคน</p>
+    <div class="lr-toolbar">
+      <button class="lr-refresh-btn" id="dash-refresh-btn" onclick="refreshDashboard(this)">🔄 รีเฟรช</button>
+    </div>
     <div class="dash-week-nav">
       <button class="dash-nav-btn" onclick="dashShiftWeek(-1)" aria-label="สัปดาห์ก่อนหน้า">‹</button>
       <div class="dash-week-label" id="dash-week-label">—</div>
@@ -1160,18 +1163,32 @@
   let DASHBOARD_ITEMS = null; // โหลดครั้งแรกตอนเปิด แล้ว cache ไว้ใช้สลับดูสัปดาห์อื่น
   let dashWeekOffset = 0;
 
+  // แยกส่วนโหลดข้อมูลออกมาต่างหาก เพื่อให้ปุ่มรีเฟรชเรียกซ้ำได้โดยไม่ต้องผ่าน openDashboard() (ซึ่งจะรีเซ็ตสัปดาห์ที่กำลังดูอยู่)
+  function loadDashboardData(onDone) {
+    return fetch(APPS_SCRIPT_URL + '?action=dashboard&token=' + encodeURIComponent(groupToken()) + '&_=' + Date.now(), { cache: 'no-store' })
+      .then(r => r.json())
+      .then(res => {
+        DASHBOARD_ITEMS = (res.ok && res.items) ? res.items : [];
+        if (onDone) onDone(true);
+      })
+      .catch(() => { DASHBOARD_ITEMS = DASHBOARD_ITEMS || []; if (onDone) onDone(false); });
+  }
+
   function openDashboard() {
     showView('senior-dashboard');
     if (DASHBOARD_ITEMS !== null) { renderDashboard(); return; }
     document.getElementById('dash-week-label').textContent = 'กำลังโหลด...';
-    fetch(APPS_SCRIPT_URL + '?action=dashboard&token=' + encodeURIComponent(groupToken()) + '&_=' + Date.now(), { cache: 'no-store' })
-      .then(r => r.json())
-      .then(res => {
-        DASHBOARD_ITEMS = (res.ok && res.items) ? res.items : [];
-        dashWeekOffset = 0;
-        renderDashboard();
-      })
-      .catch(() => { DASHBOARD_ITEMS = []; dashWeekOffset = 0; renderDashboard(); });
+    dashWeekOffset = 0;
+    loadDashboardData(function () { renderDashboard(); });
+  }
+
+  // ปุ่มรีเฟรชในหน้า Dashboard — โหลดข้อมูลใหม่จาก Apps Script แล้วเรนเดอร์ทับของเดิม (คงสัปดาห์ที่กำลังดูอยู่ไว้ ไม่รีเซ็ตกลับสัปดาห์นี้)
+  function refreshDashboard(btnEl) {
+    if (btnEl) { btnEl.disabled = true; btnEl.textContent = '🔄 กำลังโหลด...'; }
+    loadDashboardData(function () {
+      if (btnEl) { btnEl.disabled = false; btnEl.textContent = '🔄 รีเฟรช'; }
+      renderDashboard();
+    });
   }
 
   function dashShiftWeek(delta) {
