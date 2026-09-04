@@ -1424,13 +1424,16 @@
           closeAddLRModal();
           loadLRData();
         } else {
-          errEl.textContent = 'บันทึกไม่สำเร็จ ลองใหม่อีกครั้ง';
+          // แสดงเหตุผลจริงที่เซิร์ฟเวอร์ส่งกลับมาด้วย (เช่น token หมดอายุ / ยังไม่ได้อัปเดตสคริปต์)
+          // จะได้รู้สาเหตุทันทีโดยไม่ต้องเปิด console เช็ค
+          var reason = (res && res.error) ? ' (' + res.error + ')' : ' (ไม่ทราบสาเหตุ — เซิร์ฟเวอร์ตอบกลับไม่ถูกต้อง)';
+          errEl.textContent = 'บันทึกไม่สำเร็จ' + reason + ' ลองใหม่อีกครั้ง';
         }
       })
-      .catch(() => {
+      .catch(function (err) {
         btn.disabled = false;
         btn.textContent = 'บันทึก';
-        errEl.textContent = 'เชื่อมต่อไม่สำเร็จ เช็คอินเทอร์เน็ตแล้วลองใหม่';
+        errEl.textContent = 'เชื่อมต่อไม่สำเร็จ เช็คอินเทอร์เน็ตแล้วลองใหม่ (' + (err && err.message ? err.message : 'network error') + ')';
       });
   }
 
